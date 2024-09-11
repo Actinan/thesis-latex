@@ -366,22 +366,19 @@ Um einen privatsphäreschützenden Anreiz für die Benutzung eines Datentreuhän
 \end{enumerate}
 Durch eine die Verwendung von Geld als Anreiz werden diese Punkte umgangen. Das Interesse der Datengebenden ist nun ausschließlich abhängig von dem Ruf und dem persönlichen Interesse an einem Datengebenden und nicht von dessen Anreizangebot. Die in Anspruchnahme des versprochenen Anreizes ist für jeden Datennutzenden gleich Implementiert und hängt maximal von der Wahl anderer Parameter ab. Es kann davon ausgegangen werden dass alle Datennutzenden über Geld verfügen und dieses als Kompensation verwenden können. Aufgrund der (trivialität?) des Wertes von Geld sind bereits viele Wegen bekannt wie diesen Wert anonym oder pseudony an andere überträgt. Der Datentreuhänder hat die volle Kontrolle, dass ein zu zahlender Geldbetrag vom Datennutzenden abgegeben wird und auch bei Datengebenden ankommt.
  
-Im gegensatz zu GNU Taler soll es hauptsächlich den Verkäufer und dessen Informationen schützen. Die privatsphäre des Käufers ist von geringerer Bedeutung, da im Datentreuhändermodell der Käufer meist durch ein Unternehmen oder eine Forschungseinrichtung dargestellt wird. Hinzu kommt dass ein durch die Struktur eines Datentreuhänders, der Käufer dazu gezwungen ist eine Menge an Informationen anzugeben, um vom Datentreuhänder zugelassen zu werden. Der Verkäufer ist eine einzelne Privatperson die ihre gesammelten Daten bewusst an Unternehmen oder Forschungseinrichtungen verkaufen möchte. Der Schutz der Privatperson ist hier also von größerem Interesse.
+Im gegensatz zu GNU Taler soll das Bezahlsystem hauptsächlich den Verkäufer und dessen Informationen schützen. Die privatsphäre des Käufers ist von geringerer Bedeutung, da im Datentreuhändermodell der Käufer meist durch ein Unternehmen oder eine Forschungseinrichtung dargestellt wird. Hinzu kommt dass ein durch die Struktur eines Datentreuhänders, der Käufer dazu gezwungen ist eine Menge an Informationen anzugeben, um vom Datentreuhänder zugelassen zu werden. Der Verkäufer ist eine einzelne Privatperson die ihre gesammelten Daten bewusst an Unternehmen oder Forschungseinrichtungen verkaufen möchte. Der Schutz der Privatperson ist hier also von größerem Interesse.
 
 Um den Zahlungsablauf unabhängig von anderen Technologien wie Bankanbindungen o.ä. zu gestalten wird in den folgenden Systemen eine eigene interne Währung etabliert. Diese Währung wird im folgenden Coins genannt. Zwar ist ein direkter Tausch von Coins mit anderen Personen, wie im Falle von Kryptowährungen möglich, allerdings wird der monetäre Wert eines Coins bei der Erstellung festgelegt und in diesem gespeichert, was den Tausch zu Spekulationszwecken sinnlos macht.\\
 Weiter sei angemerkt, dass für die Systeme ein weiterer Akteur in die Kommunikation mit dem Datentreuhänder eingeführt wird. Im Standartmodell eines Datentreuhänder existieren die Rollen des Datengebenden der seine Daten anbietet, des Datennutzenden der an den Daten des Datengebenden interessiert ist und die des Datentreuhänders der Datengebende und Datennutzende zusammenführt und deren Interaktion verwaltet. Im folgenden wird eine Exchange eingeführt. Er ist ausschließlich für die Verwaltung von Zahlungsgeschäften zwischen Datennutzenden und Datengebenden zuständig. In der Regel ist angedacht diesen Akteur zusammen mit dem Datentreuhänder innerhalb eines Netzwerks oder Rechner laufen zu lassen, allerdings kann dieser auch separat an einer anderen Stelle laufen.\\
 
 \section{Coin Generierungsphase}
 Hier werden die Coins die im späteren Verlauf beider Systeme verwendet werden vom Datennutzenden erstellt und vom Datentreuhänder signiert. Die einzelnen Schritte sind in Abbildung \ref{fig:coin-generationphase} verdeutlich und werden im folgenden beschrieben.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{CoinGenerationPhaseDiagramm.pdf}
     \caption{Coin Generierungsphase Ablauf}
     \label{fig:coin-generationphase}
 \end{figure}
-
-% \paragraph{1. Konto erstellen (Optional)}  $(apk \leftarrow account-public-key)$
-%Als erster Schritt der Coin Generationphase, kann der Datennutzende sich eine Konto erstellen auf dem der CoinGenerationToken abgelegt wird. Ein neu hinzugekommener Datennutzender muss diesen Schritt zuerst mindestens ein Mal ausführen. Für allwelches e danach folgenden Generierungsphasen kann er sich entscheiden jedes Mal ein neues Konto zu erstellen oder ein bestehendes wieder zu verwenden. Ein Konto besteht aus einem public key. Der Datennutzende der dieses erstellt hat, hält den dazu gehörigen private key. Das Konto stellt ein Pseudonym dar, 
 
 \paragraph{1. Zahlungseingang} $(apk \leftarrow AccountPublicKey, ES \leftarrow ErhalteneSumme)$\\
 Der Exchange erhält über einen beliebigen Weg eine Summe und einen Konto public key. Die genaue Umsetzung des Zahlungseingang liegt bei dem Exchange. Er kann alles zwischen einer Banküberweisung mit der $apk$ als Verwendungszweck, bis hin zu einem Briefumschlag mit Bargeld und einem leserlich aufgeschriebenen $apk$ sein. Nach Eingang einer Zahlung erstellt der Exchange einen sogenannten CoinGenerationToken bestehend aus $(nonce, apk, ES, spent \leftarrow false)$, verschlüsselt ihn mit dem $apk$ und speichert diesen intern.
@@ -455,13 +452,13 @@ security bit level performance
 %==================================================================================================
 
 
-\chapter{Limitations}
+\chapter{Begrenzungen}
 
 
 %==================================================================================================
 
 
-\chapter{Conclusion}
+\chapter{Zusammenfassung}
 
 
 %==================================================================================================
