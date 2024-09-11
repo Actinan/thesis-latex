@@ -1,9 +1,8 @@
+%&pdflatex
 \documentclass[11pt,a4paper]{scrreprt}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[pdftex]{graphicx}
-\usepackage[ngerman]{babel}
+
 \usepackage{colortbl}	
 \usepackage{xcolor}
 \usepackage{soul}
@@ -11,7 +10,7 @@
 \renewcommand{\familydefault}{\sfdefault}
 \definecolor{uhhred}{cmyk}{0,100,100,0}
 \input{stylesvs}
-\addbibresource{references.bib}
+\addbibresource{main.bib}
 
 \begin{document}
 
@@ -21,35 +20,36 @@
 \newgeometry{centering,left=2cm,right=2cm,top=2cm,bottom=2cm}
 \begin{titlepage}
 \includegraphics[width=6.8cm]{up-uhh-logo-u-2010-u-farbe-u-rgb.pdf}
-\begin{center}\Large
-	\vfill
-	Bachelorarbeit
-	\vfill
-	\makeatletter
-	{\Large\textsf{\textbf{\@title}}\par}
-	\makeatother
-	\vfill
-	vorgelegt von
-	\par\bigskip
-	\makeatletter
-	{\@author} \par
-	\makeatother
-	Matrikelnummer 7509085 \par
-	Studiengang Software System Entwicklung
-	\vfill
-	MIN-Fakultät \par
-	Fachbereich Informatik
-	\vfill
-	\makeatletter
-	eingereicht am {\@date}
-	\makeatother
-	\vfill
-	Betreuer: Kevin Röbert
+\begin{center}
+    \vfill
+    \Large Bachelorarbeit
+    \vfill
+    \makeatletter
+    {\Large\textsf{\textbf{\@title}}}
+    \makeatother
+    \vfill
+    vorgelegt von
+    \par\bigskip
+    \makeatletter
+    {\@author}
+    \makeatother
+    \par
+    Matrikelnummer 7509085 \par
+    Studiengang Software System Entwicklung
+    \vfill
+    MIN-Fakultät \par
+    Fachbereich Informatik
+    \vfill
+    \makeatletter
+    eingereicht am {\@date}
+    \makeatother
+    \vfill
+    Betreuer: Kevin Röbert
 \end{center}
 \ifoptionfinal{}{
-\begin{tikzpicture}[remember picture, overlay]
-	\node[draw, red, font=\ttfamily\bfseries\Large, xshift=30mm, yshift=238mm, rotate=340, text centered, text width=6cm, very thick, rounded corners=4mm] at (current page.south) {Entwurf vom \today};
-\end{tikzpicture}
+    \begin{tikzpicture}[remember picture, overlay]
+        \node[draw, red, font=\ttfamily\bfseries\Large, xshift=30mm, yshift=238mm, rotate=340, text centered, text width=6cm, very thick, rounded corners=4mm] at (current page.south) {Entwurf vom \today};
+    \end{tikzpicture}
 }
 \end{titlepage}
 
@@ -109,13 +109,12 @@ Allerdings ist das Verständnis eines Datentreuhänders nicht eindeutig. Jürgen
 %``In Anlehnung an eine Bank, die für ihre Kundinnen und Kunden Vermögenswerte hält und verwaltet, verwalten Datentreuhänder gemäß dem engen Begriffsverständnis Daten für die Datengebenden in einem treuhänderischen Verhältnis. Als unabhängige dritte Partei validieren, kontrollieren und sichern sie Datenbestände der Datengebenden, teilen die Daten mit berechtigten Nutzenden im Sinne des Willens der Datengebenden und gewährleisten deren zweckgebundene Verwendung`` \cite{dt-lindner2021datentreuhänderschaft}\\
 
 \subsection{Verschieden Modelle}
-Insgesamt lassen sich alle bis zum heutigen Zeitpunkt in Betrieb genommenen oder geplanten Datentreuhandsysteme wie folgt kategorisieren. Zum einen besteht die Einteilung in Customer to Business oder Business to Business Systeme und zum anderen die risikobasierte Einteilung nach Zentralen/Dezentraler Datenspeicherung und Freiwilliger/Verpflichtender Nutzung. (siehe \ref{fig:dt-risikoeinteilug})\\
+Insgesamt lassen sich alle bis zum heutigen Zeitpunkt in Betrieb genommenen oder geplanten Datentreuhandsysteme wie folgt kategorisieren. Zum einen besteht die Einteilung in Customer to Business oder Business to Business Systeme und zum anderen die risikobasierte Einteilung nach Zentralen/Dezentraler Datenspeicherung und Freiwilliger/Verpflichtender Nutzung. (siehe \ref{fig:dt-risikoeinteilug})
 
-Die Unterscheidung zwischen Customer to Business und Business to Business Datentreuhändern basiert ausschließlich auf den interagierenden Parteien. Im Falle einer B2B Interaktion kommunizieren zwei Unternehmen die vorhandenen Daten miteinander. In diesem Fall kommt es häufig vor, dass eines der Unternehmen durch eine staatliche Behörde dargestellt wird. Bei den gespeicherten Daten handelt es sich meist um personenbezogene Daten. Aufgrund dessen befassen sich B2B Datentreuhänder häufig mit der Pseudonymisierung und der Verwaltung der bereitgestellten Daten. Sie sind unter anderem im Gesundheitswesen viel vertreten. \cite{dt-blankertz2020datentreuhandmodelle} \\
-C2B Systeme umfassen solche, bei denen einen Endnutzer die Daten generiert  und diese an ein Unternehmen zur weiteren Benutzung freigibt. Ihre Aufgabe ist hauptsächlich die Unterstützung des Nutzers bei der gerechten Weiterverarbeitung seiner Daten. \cite{dt-blankertz2020datentreuhandmodelle} Hier sind dementsprechend die Pseudonymisierung der Daten sowie die Einhaltung von Datenschutzrechtlinien und einheitlicher Standarts die Hauptziele des Datentreuhänders.\\
+Die Unterscheidung zwischen Customer to Business und Business to Business Datentreuhändern basiert ausschließlich auf den interagierenden Parteien. Im Falle einer B2B Interaktion kommunizieren zwei Unternehmen die vorhandenen Daten miteinander. In diesem Fall kommt es häufig vor, dass eines der Unternehmen durch eine staatliche Behörde dargestellt wird. Bei den gespeicherten Daten handelt es sich meist um personenbezogene Daten. Aufgrund dessen befassen sich B2B Datentreuhänder häufig mit der Pseudonymisierung und der Verwaltung der bereitgestellten Daten. Sie sind unter anderem im Gesundheitswesen viel vertreten. \cite{dt-blankertz2020datentreuhandmodelle}
+C2B Systeme umfassen solche, bei denen einen Endnutzer die Daten generiert  und diese an ein Unternehmen zur weiteren Benutzung freigibt. Ihre Aufgabe ist hauptsächlich die Unterstützung des Nutzers bei der gerechten Weiterverarbeitung seiner Daten. \cite{dt-blankertz2020datentreuhandmodelle} Hier sind dementsprechend die Pseudonymisierung der Daten sowie die Einhaltung von Datenschutzrechtlinien und einheitlicher Standarts die Hauptziele des Datentreuhänders.
 
-Des weiteren lassen sich Datentreuhandsysteme anhand ihrer Datenspeicherung sowie Nutzung kategorisieren und Risikotechnisch bewerten. 
-Die zentrale Speicherung der Daten bietet einige Vorteile für den Treuhänder. Sie ermöglicht es Daten vor zu verarbeiten, zu analysieren und Datenverarbeitende von dem direkten Zugang der Daten auszuschließen. Allerdings birgt die zentrale Datenspeicherung ein enormes Risiko der Datensicherheit, da hier ein single point of failure entsteht. Bei einem Angriff auf einen solchen Datentreuhänder fällt es einem Angreifer somit leichter eine große Menge an Daten zu stehlen.
+Des weiteren lassen sich Datentreuhandsysteme anhand ihrer Datenspeicherung sowie Nutzung kategorisieren und Risikotechnisch bewerten. Die zentrale Speicherung der Daten bietet einige Vorteile für den Treuhänder. Sie ermöglicht es Daten vor zu verarbeiten, zu analysieren und Datenverarbeitende von dem direkten Zugang der Daten auszuschließen. Allerdings birgt die zentrale Datenspeicherung ein enormes Risiko der Datensicherheit, da hier ein single point of failure entsteht. Bei einem Angriff auf einen solchen Datentreuhänder fällt es einem Angreifer somit leichter eine große Menge an Daten zu stehlen.
 Bei einer dezentralen Speicherung werden die Daten durch den Treuhänder pseudonymisiert oder ganz anonymisiert und bei dem Datengeber gelagert. Aus diesem Grund bietet eine dezentrale Datenspeicherung mehr Sicherheit vor Diebstahl. Sie zieht allerdings auch eine eingeschränkte Verarbeitung und Analyse der Daten mit sich und erhöht die Komplexität der Verwaltung.\\
 
 Es besteht eine weitere Unterteilung in Datentreuhandsysteme, dessen Benutzung freiwillig ist oder verpflichtend ist. Dabei fällt der größte Anteil an Systeme unter die freiwillige Benutzung. Es gibt jedoch auf Szenarien in denen die Verwendung einer Datentreuhand verpflichtend ist. Ein Beispiel hierfür wäre das Krebs- und Transplantationsregister aus dem medizinischen Bereich. Das Risiko steigt bei verpflichtenden Systemen, da sie meist einen wichtigen Bestandteil der Kommunikation ausmachen der nicht umgangen werden kann. Somit sind die potentiellen Schäden die bei einem Angriff entstehen können höher als in einem freiwilligen System.
@@ -138,7 +137,7 @@ Das mögliche Spektrum an Anwendungsfällen ist denkbar breit. In beinahe jedem 
     \item \textbf{Industrie} In der Industrie besteht eine hohe Abhängigkeit von Warenbewegungen, seien es in Lieferketten, Logistik oder Handel. Durch die Verwendung eines Datentreuhänders können diese Informationen pseudonymisiert an Warenempfänger weitergegeben werden. Vor allem in diesem Bereich besteht durch die Zusammentragung an Lieferinformationen in Kombination mit Algorithmen der Graphentheorie ein großes Innovationspotential.
     \item \textbf{PIMS} Personal Information Management Systeme befassen sich grundsätzlich mit der Wahrung von personenbezogenen Daten und bietet ihren Nutzern mehr Kontrolle über diese.  Datentreuhänder sind für solche Systeme vor allem von Vorteil da sie im Umgang mit personenbezogenen Daten dem Nutzer wieder die Kontrollen über seine Daten zurückgeben.
 \end{itemize}
-\cite{dt-blankertz2021regulierung}\cite{dt-blankertz2021neue}\cite{dt-bundesdruckereiDatentreuhänder}\\
+\cite{dt-blankertz2021regulierung}\cite{dt-blankertz2021neue}\cite{dt-bundesdruckereiDatentreuhänder}
 
 Der erste Datentreuhänder entstand einer bereits im Jahre 2006 in England. Seit dem das Thema Datentreuhänder in den letzten Jahren immer mehr zum Trend wurde \cite{dt-richter2020ddvtalk}. Die ``UK Biobank`` ist eine biomedizinische Datenbank die sowohl medizinische Daten als auch biologische Proben von einer halben Millionen Teilnehmer aus Großbritanien speichert\cite{dt-hardinges2018data}. Die gespeicherten Daten sind pseudonymisiert und werden ausschließlich an Forscher im Feld der Medizin weitergegeben, was die UK Biobank zu einem Paradebeispiel für einen Patientendatentreuhänder macht.
 
@@ -146,7 +145,7 @@ Der erste Datentreuhänder entstand einer bereits im Jahre 2006 in England. Seit
 
 
 \section{Bestehende Anreize}
-Generell sei gesagt, dass die Verwendung eines Datentreuhänders keine direkten Nachteile mit sich bringt. Wenn Daten ohnehin geteilt werden oder werden müssen, so behält der Nutzer bei der Speicherung der Daten über einen Datentreuhänder mehr Kontrolle über die Verwendung seiner geteilten Daten verglichen mit dem direkten Teilen mit Unternehmen. Durch den Datentreuhänder wird ihm ermöglicht zu einem beliebigen Zeitpunkt das weitere Teilen seiner Informationen einzustellen. Vermutlich teilen deswegen Privatpersonen ihre Daten lieber mit Datentreuhändern als auf direktem Weg. \cite{dt-tresor24study}\\
+Generell sei gesagt, dass die Verwendung eines Datentreuhänders keine direkten Nachteile mit sich bringt. Wenn Daten ohnehin geteilt werden oder werden müssen, so behält der Nutzer bei der Speicherung der Daten über einen Datentreuhänder mehr Kontrolle über die Verwendung seiner geteilten Daten verglichen mit dem direkten Teilen mit Unternehmen. Durch den Datentreuhänder wird ihm ermöglicht zu einem beliebigen Zeitpunkt das weitere Teilen seiner Informationen einzustellen. Vermutlich teilen deswegen Privatpersonen ihre Daten lieber mit Datentreuhändern als auf direktem Weg. \cite{dt-tresor24study}
 
 Allerdings gibt es nur wenige Vorteile die die freiwillige Benutzung eines Datentreuhänders reizvoll machen. Bei freiwilligen C2B Datentreuhändern, hängt die Entscheidung für oder gegen die Nutzung des Treuhänders beim Nutzer. Es ist also an ihm abzuwägen ob die Verwendung ausreichend Vorteile liefert. Im Fall von PIMS Treuhänder wird die Verwendung von manchen als erstrebenswert angesehen, da der Nutzer mehr Kontrolle über die Verbreitung von persönlichen Daten erhält und selbst entscheiden kann, mit wem diese geteilt werden. Die Erkenntnissen von Jai et al. \cite{dt-jai2016privacy} zeigen hingegen, dass vor allem jüngere Erwachsene weniger Wert auf den Schutz ihrer persönlichen Daten legen.
 
@@ -197,19 +196,20 @@ Das im Paper ``Enabling Secure Web Payments with GNU Taler`` von J. Burdges et a
 \textit{Taler abheben.} Damit ein Customer Geld auf sein Wallet laden kann, muss er sich zuerst bei seiner Bank anmelden. Sollte die Bank GNU Taler native unterstützen, so kann der Customer in einem Formular eine Summe auswählen, die er in Taler übertragen möchte und einen Exchangeservice, über welchen der Tausch abgewickelt wird. Nachdem der Customer die Transaktion bestätigt hat, wird die ausgewählte Summe transferiert, der Exchangeservice signiert die equivalente Summe an Talern und überträgt diese in das Wallet des Customers.
 
 \textit{Taler ausgeben.} Gehen wir von der Situation aus, dass eine Customer bei einem Merchant (hier ein Onlineshop), etwas erwerben möchte. Nach der Auswahl des Produktes und GNU Taler als Zahlungsmittel, erstellt der Merchant einen Zahlungsvertrag, der Details wie den Gesamtpreis, mögliche offene Umwandlungsgebühren und akzeptierte Exchangeservices beinhaltet und sendet diesen an das Wallet des Customers.  Wenn der Customer daraufhin die Zahlung übermittelt, so leitet der Merchant die erhaltenen Taler direkt an den Exchange weiter. Wenn der Exchange den Eingang bestätigt, so kann der Merchant dem Customer die Transaktion bestätigen und der Kauf ist somit abgeschlossen. 
-\\\\
+
+
 In dem Treuhändermodell eignet sich GNU Taler aber nur teilweise als Zahlungssystem. Der Datengebende stellt dabei den Merchant da, der seine Daten als digitales Gut anbietet. Der Datennutzende stellt hier die Rolle des Customers dar und möchte diese Daten erwerben. Sollte der Datengebende der Anfrage des Datennutzende zustimmen, so würde er einen Zahlungsvertrag formulieren, um den Anspruch auf seine Vergütung zu formalisieren. Allerdings soll der Datengebende im Datentreuhändermodell so gut wie möglich vor Informationsgewinnung geschützt werden. Bei dem von GNU Taler vorgeschlagenen Prozess wird jedoch die Identität des Datengebenden nachverfolgbar, während der Datennutzenden anonym bleibt. Zusätzlich besteht eine direkte Kommunikation zwischen Datengebenden und Datennutzenden, was weitere schützenswert Information über die Identität des Datengebenden preis gibt.
 
 \section{Privacy Pass}
 \label{sec:privacy-pass}
-Ein VPN bietet einige Vorteile in der regulären Kommunikation über das Internet. Bspw. erhöht er die Anonymität des Nutzers da dessen private IP Adresse so geschützt bleibt. Allerdings gibt es auch Nachteile die häufig übersehen werden. Einer davon ergibt sich daraus, dass wenn der Internetverkehr von hunderten Benutzern des VPNs über die gleiche IP Adresse verteilt wird, dann genügt ein  bösartiger Nutzer der die IP Adresse für einen Angriff oder o.ä. nutzt, um der IP einen schlechten Ruf bei populären Content Delivery Networks wie Cloudflare zu verschaffen. Ein Content Delivery Network (kurz CDN) ist dafür zuständig häufig angefragt Websiten wie Google.com oder Netflix.com in seinem Cache aufzubewahren und so die Zugriffszeit welche durch physikalisch große Distanzen zwischen Nutzer und Server entsteht zu verkürzen \cite{pp-cdn}. Zusätzlich liefert ein CDN ein Menge an Sicherheitsfunktionen, wie unter anderem IP Adressen mit schlechtem Ruf ein CAPTCHA präsentieren, um Botzugriffe zu verhindern. Daraus resultiert dass ein regulärer Nutzers eines VPNs erheblich mehr CAPTCHAs lösen muss, als ein Nutzer der keinen VPN verwendet.
+Ein VPN bietet einige Vorteile in der regulären Kommunikation über das Internet. Bspw. erhöht er die Anonymität des Nutzers, da dessen private IP Adresse so geschützt bleibt. Allerdings gibt es auch Nachteile die häufig übersehen werden. Einer davon ergibt sich daraus, dass wenn der Internetverkehr von hunderten Benutzern des VPNs über die gleiche IP Adresse verteilt wird, dann genügt ein bösartiger Nutzer, der die IP Adresse für einen Angriff oder o.ä. nutzt, um der IP einen schlechten Ruf bei populären Content Delivery Networks wie Cloudflare zu verschaffen. Ein Content Delivery Network (kurz CDN) ist dafür zuständig häufig angefragt Websiten wie Google.com oder Netflix.com in seinem Cache aufzubewahren und so die Zugriffszeit welche durch physikalisch große Distanzen zwischen Nutzer und Server entsteht zu verkürzen \cite{pp-cdn}. Zusätzlich liefert ein CDN ein Menge an Sicherheitsfunktionen, wie unter anderem IP Adressen mit schlechtem Ruf ein CAPTCHA präsentieren, um Botzugriffe zu verhindern. Daraus resultiert dass ein regulärer Nutzer eines VPNs erheblich mehr CAPTCHAs lösen muss, als ein Nutzer der keinen VPN verwendet.
 
 \subsection{Umgehen vom CAPTCHAs}
-Privacy Pass ist eine Browsererweiterung die es ermöglicht, vorab ein CAPTCHA zu lösen und damit eine Menge an Token zu erhalten. Solange ein Nutzer über mindestens einen Token verfügt, so kann er das nächste Mal, wenn ein CDN ihn aufgrund eines schlechten IP Rufwertes zum lösen eines CAPTCHAs auffordert, anstatt einen Token einlösen und kann die Aufgabe so überspringen. Dadurch erhöht sich die Nutzerfreundlichkeit unter der Verwendung eines VPNs da die Anzahl an zu lösenden CAPTCHAs rapide sinkt. \cite{pp-davidson2018privacy}
+Privacy Pass ist eine Browsererweiterung die es ermöglicht, vorab ein CAPTCHA zu lösen und damit eine Menge an Token zu erhalten. Solange ein Nutzer über mindestens einen Token verfügt, kann er das nächste Mal, wenn ein CDN ihn aufgrund eines schlechten IP Rufwertes zum lösen eines CAPTCHAs auffordert, anstatt einen Token einlösen und kann die Aufgabe so überspringen. Dadurch erhöht sich die Nutzerfreundlichkeit unter der Verwendung eines VPNs da die Anzahl an zu lösenden CAPTCHAs rapide sinkt. \cite{pp-davidson2018privacy}
 
 \subsection{Funktionsweise}
-Das System ist aufgeteilt in eine sogenannte Signierphase und Einlösephase. Die Signierphase startet nachdem der Nutzer erfolgreich ein CAPTCHA gelöst hat. Sie ist dafür zuständig dem Nutzer eine Anzahl an Coins auszustellen die durch den Server signiert sind. Die Einlösephase beginnt wenn ein CDN ein CAPTCHA für den Zugang zu einem Webinhalt fordert. Bei ihr wird einer der gespeicherten signierten Token eingetauscht um die Lösung des CAPTCHAs zu überspringen. 
-\paragraph{Signierphase} Erstellen und signieren von Token\\
+Das System ist in eine sogenannte Signierphase und Einlösephase aufgeteilt. Die Signierphase startet nachdem der Nutzer erfolgreich ein CAPTCHA gelöst hat. Sie ist dafür zuständig dem Nutzer eine Anzahl an Coins auszustellen die durch den Server signiert sind. Die Einlösephase beginnt wenn ein CDN ein CAPTCHA für den Zugang zu einem Webinhalt fordert. Bei ihr wird einer der gespeicherten signierten Token eingetauscht um die Lösung des CAPTCHAs zu überspringen. 
+\paragraph{Signierphase} Erstellen und signieren von Token
 
 \begin{figure}[H]
     \centering
@@ -217,7 +217,7 @@ Das System ist aufgeteilt in eine sogenannte Signierphase und Einlösephase. Die
     \caption{Signierphase von Privacy Pass \cite{pp-davidson2018privacy}}
     \label{fig:pp-signingphase}
 \end{figure}
-Zuerst erstellt der Nutzer (C - Client) einen Tokenseed $t$ mit $t \in_R \mathbb{Z}_q $. Daraus generiert er Token $T$ bspw. mit einer Hashfunktion und blindet diesen mir $r$ wie in \ref{sec:blindSig} beschrieben, um $\widetilde{T}$ zu erhalten. Dieser geblindete Token wird nun an der Server gesendet, damit dieser in signieren kann. Beim Server angekommen beginnt dieser damit, den Token mit seinem privaten Schlüsselt $sk$ zu signieren. Anschließend erstellt er einen sogenannten Batch Discrete Log Equivalence Proof, um dem Nutzer zu beweisen, dass er nicht für jeden Nutzer einen eigenen privaten Schlüssel verwendet um ihn über längere Zeit zu deanonymisieren. Der signierte Token und der BDLEQ werden wieder an den Nutzer gesendet, dieser prüft die Korrektheit des Beweises, unblindet den signierten Token und speichert ihn für spätere Verwendung. 
+Zuerst erstellt der Nutzer \textit{C} (Client) einen Tokenseed $t$ mit $t {\in}_R \mathbb{Z}_q $. Daraus generiert er Token $T$ bspw. mit einer Hashfunktion und blindet diesen mit $r$ wie in \ref{sec:blindSig} beschrieben, um $\widetilde{T}$ zu erhalten. Dieser geblindete Token wird nun an der Server \textit{S} gesendet, damit dieser in signieren kann. Beim Server angekommen beginnt dieser damit, den Token mit seinem privaten Schlüsselt $sk$ zu signieren. Anschließend erstellt er einen sogenannten Batch Discrete Log Equivalence Proof (BDLEQ), um dem Nutzer zu beweisen, dass er nicht für jeden Nutzer einen eigenen privaten Schlüssel verwendet um ihn über längere Zeit zu deanonymisieren. Der signierte Token und der BDLEQ werden wieder an den Nutzer gesendet, dieser prüft die Korrektheit des Beweises, unblindet den signierten Token und speichert ihn für spätere Verwendung. 
 
 \paragraph{Einlösephase} Signierten Token einlösen\\
 \begin{figure}[H]
@@ -226,8 +226,15 @@ Zuerst erstellt der Nutzer (C - Client) einen Tokenseed $t$ mit $t \in_R \mathbb
     \caption{Einlösephase von Privacy Pass \cite{pp-davidson2018privacy}}
     \label{fig:pp-redemptoinphase}
 \end{figure}
-Der Nutzer beginnt damit einen gespeicherten signierten Token auszulesen und einen anfragenabhängigen Wert $R$ zu berechnen. Dieser könnte einfach die Domain der Anfrage sein. Er generiert einen shared key $K$ aus dem Tokenseed und dem signierten Token und verschlüsselt $R$ mit $K$ als key. Daraufhin sendet er das Tupel aus Tokenseed $t$ und $s\leftarrow MAC_{K}(R)$ mit shared key verschlüsseltem $R$ an den Server. Der Server prüft ob $t$ bereits für eine vorherige Anfrage verwendet wurde. Falls dies nicht der Fall ist, berechnet er auf Grundlage von $t$ alle Schritte des Nutzers und erhält so ein $s'$. Sollte $s' =s$ gelten, dann ist der Token valide, das CAPTCHA kann übersprungen werden und der Nutzer erhält Zugriff auf die angefragt Webressource.
+Der Nutzer beginnt damit einen gespeicherten signierten Token auszulesen und einen anfragenabhängigen Wert $R$ zu berechnen. Dieser könnte einfach die Domain der Anfrage sein. Er generiert einen shared key $K$ aus dem Tokenseed und dem signierten Token und verschlüsselt $R$ mit $K$ als key. Daraufhin sendet er das Tupel aus Tokenseed $t$ und $s\leftarrow MAC_{K}(R)$ mit shared key verschlüsseltem $R$ an den Server. Der Server prüft ob $t$ bereits für eine vorherige Anfrage verwendet wurde. Falls dies nicht der Fall ist, berechnet er auf Grundlage von $t$ alle Schritte des Nutzers und erhält so ein $s'$. Sollte $s'=s$ gelten, dann ist der Token valide, das CAPTCHA kann übersprungen werden und der Nutzer erhält Zugriff auf die angefragt Webressource.
 
+Im Grund lässt Privacy Pass gut auf die Verwendung im Datentreuhändermodell anwenden. Unter den Annahmen, dass ein Datennutzender hier ein Nutzer ist, kann er Token bei dem Datentreuhänder erwerben, speichern und zu einem späteren Zeitpunkt wieder ausgeben. Da die Token blind signiert werden wird vermieden, dass der Datentreuhänder die in den unterschiedlichen Phasen verwendeten Token zueinander verlinken kann und Zusammenhänge zwischen einlösen und ausgeben ziehen kann. Der Datentreuhänder kann eine weitere überprüfende Instanz verwenden wie in \cite{pp-davidson2018privacy} beschrieben wird, um den Aufwand der Überprüfung auszulagern. \\
+Einige Punkte sprechen jedoch gegen die direkte Verwendung von Privacy Pass. 
+\begin{enumerate}
+    \item Die Token haben keinen Wert. Bei Bezahlungsmittel ist es essentiell einen bestimmten Preis bezahlen zu können. Dafür wären entweder mehrere unterschiedliche Token von Nöten oder Token welche einen monetäre Wert gespeichet haben. Ansonsten kann nur in Vielfachen von dem einen Token gezahlt werden was dazu führt, dass es keine präzise Preisvergabe gibt oder bei jeder Transkation eine große Menge an Token validiert werden müssen.
+    \item Ein Nutzer interagiert sowohl zum Einlösen als auch zum Ausgeben nur mit dem Server und nicht mit einem Verkäufer dem er seine Token im Tausch anbietet. Es existiert hier also kein 3. Akteur wie bei GNU Taler \ref{subsec:gnu} der erhaltete Token einlöst.
+    \item Die Token können ähnlich wie bei GNU Taler \ref{subsec:gnu} nicht direkt an den Verkäufer weitergegeben werden, da dadurch eine direkte Verbindung zwischen Datennutzenden und Datengebenden entsteht, welche schützenswerte Informationen an den Datennutzenden preisgibt.
+\end{enumerate}
 
 \section{Privacy-Preserving Reputation Management}
 \label{subsec:rep}
@@ -249,11 +256,8 @@ In der vorliegenden Situation kann das Konzept zu großen Teilen verwendet werde
 
 \section{Blinde Signaturen}
 \label{sec:blindSig}
-Neue rl müssen hier noch eingefügt werden. Texte nochmal überarbeiten -> besser formulieren und technischer beschreiben.
-
-
 Das von David Chaum im Jahre 1983 veröffentlichtes Paper ``Blind signatures for untraceable payments`` beschreibt den theoretischen Ansatz, dass ein Nutzer eine verifizierbare Signatur für eine Nachricht erhält, ohne dass der Unterzeichner den Inhalt der Nachricht kennt. \cite{chaum1983blind}. Ein Beispiel hierfür wäre ein Zahlungsdienstleister, der eine neuen Coin in dem Umlauf bringen möchte. Dafür sendet er seinen Reputationswert und den unkenntlich gemachten Coin an eine Zentrale Institution. Wenn diese den Reputationswert als hoch genug ansieht und somit den Zahlungsdienstleister als vertrauenswürdig erkennt, so kann sie den Coin blind signieren und an den Dienstleister zurückschicken. Wenn nun ein späterer Inhaber des Coins, prüfen möchte, ob sein Coin von einem vertrauenswürdigen Dienstleister erstellt wurde, so kann er die blinde Signatur mit dem öffentlichen Schlüssel der Institution entschlüsseln. Das Ergebnis dieser Berechnung zeigt, dass die Institution den Coin tatsächlich signiert hat und sie dem Coinaussteller vertraut. Der hierbei essentielle Punkt ist, dass diese Institution nicht weiß, was sie unterschreibt. Somit kann die Institution die Beziehung des Dienstleisters und des Coininhabers nicht nachverfolgen. 
-\\\\
+
 Die für das Verfahren nötigen Rechenschritte sind im Folgenden beschrieben. Angenommen der Unterzeichnende verfügt über eine private Signierfunktion $s'$ und eine öffentliche Funktion $s$, sodass $s(s'(x)) = x$. Der Nutzer verfügt über die privaten Funktionen $c$ und dessen invers $c'$, sodass $c'(s'(c(x))) = s'(x)$. 
 \begin{enumerate}
     \item Der Nutzer beginnt nun damit, sich ein $x$ auszusuchen. Dieses wird durch zufällige Redundanz vor Kollisionen geschützt und mit $c(x)$ unkenntlich gemacht.
@@ -266,9 +270,20 @@ Blinde Signaturen sind bei dem Ansatz von privatsphäreschützenden Zahlungs- un
 
 \section{Partiell Blinde Signaturen}
 \label{sec:partBlindSig}
-Partiell blinde Signaturen ähneln sich vom Effekt stark zu blinden Signaturen von Chaum aus dem vorherigen Absatz \ref{sec:blindSig}. Der jedoch entscheidende Unterschied ist, dass es bei partiell blinden Signaturen eine Infowert gibt der sowohl Nutzer als auch Unterzeichnende bekannt ist. Dieser kann genutzt werden, damit der Unterzeichnende möglicherweise Prüfung ausführen kann und zu entscheiden ob er die Nachricht wirklich unterzeichnen möchte. Diese Eigenschaft wird im späteren Verlauf bspw. dazu verwendet einen Coin partiell blind zu signieren. Hierbei ist es essentiell, dass der Unterzeichnende den monetäre Wert des Coins prüfen kann, da ein Nutzer sonst freie Kontrolle über den Wert seines eigenen Coins hat. Mit partiell blinden Signaturen, kann genau dies gewährleistet werden. Dabei ist die monetäre Wert des Coins die Info und der kryptographische Wert des Coins die Nachricht. Nun kann der Unterzeichnende prüfen, dass der monetäre Wert der vereinbarte Wert ist und kann den kryptographischen Wert des Coins blind signieren. Der springende Punkte ist der Zusammenhang zwischen Info und Nachricht, da sonst der monetäre Wert des Coins nach dem Unterzeichnen durch den Nutzer verändert werden könnte. Um dies zu verhindern, verwendet das Verfahren den Hash der Info als Teil der Signatur, so dass diese nur gültig ist, solange die Info unverändert bleibt.
+Partiell blinde Signaturen ähneln sich vom Effekt stark zu blinden Signaturen von Chaum aus \ref{sec:blindSig}. Der jedoch entscheidende Unterschied ist, dass es bei partiell blinden Signaturen einen Infowert gibt der sowohl Nutzer als auch Signierende bekannt ist. Dieser kann genutzt werden, damit der Signierende möglicherweise Prüfung ausführen kann und zu entscheiden ob er die Nachricht wirklich signieren möchte. Diese Eigenschaft wird im späteren Verlauf bspw. dazu verwendet einen Coin partiell blind zu signieren. Hierbei ist es essentiell, dass der Signierende den monetäre Wert des Coins prüfen kann, da ein Nutzer sonst freie Kontrolle über den Wert seines eigenen Coins hat. Mit partiell blinden Signaturen, kann genau dies gewährleistet werden. Dabei ist die monetäre Wert des Coins die Info und der kryptographische Wert des Coins die Nachricht. Nun kann der Signierende prüfen, dass der monetäre Wert der vereinbarte Wert ist und kann den kryptographischen Wert des Coins blind signieren. Der springende Punkte ist der Zusammenhang zwischen Info und Nachricht, da sonst der monetäre Wert des Coins nach dem Signieren durch den Nutzer verändert werden könnte. Um dies zu verhindern, verwendet das Verfahren den Hash der Info als Teil der Signatur, so dass diese nur gültig ist, solange die Info unverändert bleibt.
 
 \subsection{Funktionweise}
+
+\begin{figure}[H]
+    \label{fig:partBlindSig}
+    \centering
+    \includegraphics*[width=1\textwidth]{partBlindSig.png}
+    \caption{Ablauf einer partiell blinden Signatur \cite{abe2000provably}}
+\end{figure}
+
+Die Durchführung einer partiell blinden Signatur besteht aus 4 Schritten. Diese 4 Schritte sind notwendig, um die Abhängigkeit von dem msg und info herzustellen. Es wird davon ausgegangen, dass vor dem ersten Schritt beide Parteien über den Infowert verfügen. Der Signierende bildet zuerst den Hashwert der info signiert diesen und schickt ihn an den Nutzer. Dieser bildet den gleichen Hashwert der info und verwendet die erhaltenen Werte zusammen mit einer Reihe an Zufallszahlen, um $\alpha$ und $\beta$ zu berechnen. $\epsilon$ ist der darauf folgende Hash von $\alpha,\beta,z$ und $msg$. Hier fließt die bereits signierte info über $\alpha$ und $\beta$ mit ein. Kurz darauf empfängt der Signierende $e$, welches nun sowohl info als auch msg beinhaltet. Dieses $e$ kann er nun verwenden, um info und msg zu signieren und die aus den Berechnungen resultierende Werte an den Nutzer zu senden. Der Nutzer kann dadurch $\rho,\omega,\sigma ,\delta$ zu bestimmen und zu speichern. Möchte der Nutzer zu einem beliebigen Zeitpunkt die Signatur auf ihre Gültigkeit prüfen, so kann er $\omega + \delta$ mit  $H (g^\rho y^\omega || g^\sigma z^\delta || z || msg)$ vergleichen. Wenn die Werte übereinstimmen, ist die Signatur valide.
+
+Durch den Verwendung von info als Teil der Signatur ist gewährleistet, dass die Signatur nur bei einer unveränderten info und msg valide bleibt. Denn sollte sich die info oder msg ändern, dann würde die Rechnung zum Überprüfen einen anderen Hash erzeugen, welcher nicht mehr mit $\omega+\delta$ übereinstimmt. Insgesamt ist das partiell blinde Signaturen Schema etwas umständlicher als Chaums blinde Signaturen. Dennoch bietet es die Möglichkeit einen öffentlichen Wert zu kommunizieren und dessen nachträgliche Änderung zu verhindern.
 
 
 \section{Elliptische Kurven Kryptographie}
@@ -277,7 +292,7 @@ Die Kryptographie über elliptische Kurven (ECC - elliptic curve cryptography) i
 \subsection{Trapdoor functions}
 Das asymmetrische RSA Verschlüsselungsverfahren ist heute weltbekannt und wird in über 90\% der Onlinekommunikation verwendet \cite{ecc-rsa_amount}. Dessen Sicherheit basiert genauso wie die von ECC auf sog.  \textit{Trapdoor functions}. Ein Trapdoor function ist ein mathematisches Problem, welches in eine Richtung leicht zu berechnen ist, jedoch das Inverse enorm schwer. Im Falle von RSA ist die Trapdoor function das Faktorisierungsproblem. Es ist leicht 2 sehr große Zahlen miteinander zu multiplizieren. Allerdings ist es enorm schwer bei einem gegebenen Produkt dessen Faktoren zu bestimmen, insbesondere wenn die Faktoren jeweils Primzahlen sind. Dies ist der Grund weshalb RSA sicher ist und zuverlässig die Kommunikation schützt. Bei ECC ist die Trapdoor function, die die Sicherheit der Verschlüsselung ausmacht, eine andere. Jedoch kann anhand dieser, ein public und private key generiert werden wie es für asymmetrische Kryptographie nötig ist.
 \subsection{Funktionsweise}
-Um die Trapdoor function hinter ECC zu verstehen müssen wir uns zuerst elliptische Kurven anschauen. Die algebraische Struktur von Elliptische Kurven ist eine Gruppe, welche aus einer Menge von Punkten $M$ und einer binären Operationen $\circ$ auf 2 Punkten der Menge besteht. Die Definition einer Gruppe fordert, dass die Element die Eigenschaften der Assoziativität, Identität, Existenz eines inversen Elements und je nach Quelle auch Abgeschlossenheit erfüllen. \cite{ecc-aradi2016einfuhrung}\cite{ecc-bogopolʹskij2008introduction} Zudem müssen die Koordinaten aller Punkte $(x,y) \in M$ die in der Menge liegen aus dem endlichen Feld stammen, sowie die Gleichung:
+Um die Trapdoor function hinter ECC zu verstehen müssen wir uns zuerst elliptische Kurven anschauen. Die algebraische Struktur von Elliptische Kurven ist eine Gruppe, welche aus einer Menge von Punkten $M$ und einer binären Operationen $\circ$ auf 2 Punkten der Menge besteht. Die Definition einer Gruppe fordert, dass die Element die Eigenschaften der Assoziativität, Identität, Existenz eines inversen Elements und je nach Quelle auch Abgeschlossenheit erfüllen. \cite{ecc-aradi2016einfuhrung}\cite{ecc-bogopolskij2008introduction} Zudem müssen die Koordinaten aller Punkte $(x,y) \in M$ die in der Menge liegen aus dem endlichen Feld stammen, sowie die Gleichung:
 
 \begin{equation}
     \label{ecc-equation}
@@ -312,7 +327,7 @@ Allgemein ist zu beachten, dass elliptische Kurven die für ein kryptographische
     \item Das $p$ in $\mathbb{Z}_p$ besagt, dass alle Werte $x \in \mathbb{Z}_p$, $0 \leq x \leq p-1$ erfüllen müssen. Durch die Wahl dieses Wertebereichs, können die X und Y-Achse nie den Wert $p$ überschreiten sondern beginnt anstatt wieder bei 0.
     \item Die zweite Eigenschaft ist die ausschließliche Betrachtung ganzer Zahlen als X und Y-Koordinate. Hierdurch wird aus dem Graphen eine Menge an zufällig aussehend gewählten Punkten. Der Graph für die kryptographische Verwendung einer elliptische Kurve ist ein Abbildung \ref{fig:ecc_3} visualisiert.
 \end{enumerate}
-Nun muss ein passendes $p$ sowie $a,b$ bestimmt werden, um die genaue Menge an Punkten zu spezifizieren. Hierfür gibt es bereits ein große Auswahl und Werten in der Literatur \cite{ecc-lochter2010elliptic}\cite{ecc-merkle2013elliptic}. Eine der prominentesten ist die ``Curve25519`` von Daniel J.Bernstein \cite{ecc-bernstein2006curve25519}. Sie hat den Werte $p=2^{255}-19$ (daher der Name) und die elliptische Funktion  $y^2=x^3+486662x^2+x$. Dies ist die Kurve, welche im folgenden verwendet wird.
+Nun muss ein passendes $p$ sowie $a,b$ bestimmt werden, um die genaue Menge an Punkten zu spezifizieren. Hierfür gibt es bereits ein große Auswahl und Werten in der Literatur \cite{ecc-lochter2010elliptic}\cite{ecc-merkle2013elliptic}. Eine der prominentesten ist die ``Curve25519`` von Daniel J.Bernstein \cite{ecc-bernstein2006curve25519}. Sie hat den Werte $p=2^{255}-19$ (daher der Name) und die elliptische Funktion  $y^2=x^3+486662x^2+x$.
 
 
 \subsection{Vor und Nachteile}
@@ -322,91 +337,78 @@ Allerdings wurde 2007 bekannt, dass der Pseudo Random Number Generator (PRNG) Du
 
 \cite{ecc-cloud2013elliptic}
 
+\section{Abschluss}
+%pro und  contra von allen
 
 %==================================================================================================
 
-
-\chapter{Zielsetzung}
-Im folgenden soll ein Systeme vorgestellt werden welche einen Anreiz für Datengeber stellt, seine persönlichen Daten durch einen Datentreuhänder weiter zugeben. Um die bösartige Ausnutzung dieses Anreizes zu verhindern wird das System Mechanismen enthalten welche einem Datengebenden einen Ruf zuteilt und verwaltet. Das System wurden in dem Tresor-Projekt der Universität Hamburg implementiert um anhand der Implementation Auswertungen zu erstellen.
-
-\paragraph{Payment System.}
-Hier ist vorgesehen, dass ein Datennutzender bezahlen muss bevor er Zugang zu den Daten erhält. Dafür sendet der Datennutzende einen oder mehrere interne Coins an den Datengebenden, welcher diese durch den Datentreuhänder prüfen lässt. Wenn die Prüfung erfolgreich ist, gibt der Datengebende den Zugang zu seinen Daten frei und erstellt erstellt einen Bewertungstoken. Der Datennutzenden kann nun die Daten auswerten und später mit dem Bewertungstoken eine Bewertung für den Datengebenden ausstellen. Anhand dieser Bewertung wird ein Ruf für jeden Datengebenden bestimmt, der eine Einschätzung über die Qualität der Daten liefert. Sollte also ein Datengebender ein großen Menge an nutzlosen Daten anbieten und so das System auszunutzen, so kann dies durch einen schlechten Ruf von Datennutzenden erkannt werden bevor die Daten erworben werden.
-
-
-\section{Begründungen}
-\subsection{Geld als Anreiz}
-Der hier gewählte Anreiz für den Datengeber ist eine kleine monetäre Summe als Kompensation. Dies hat vor allem 5 Gründe:
-\begin{enumerate}
-    \item Kein Handelsgut oder Dienstleistung ist so universelles begehrt wie Geld. Zwar ist es möglich das ein Business welches hier als Datennutzer auftritt, für die Preisgabe der Daten eine Dienstleistung anbietet. Bspw. können Social Media Plattformen wie X konstenlose zeitlichbedingte Premiumabonnenments oder vergleichbar Angebote in Aussicht stellen. Jedoch sind ist das Interesse an solchen Angeboten subjektiv zu bewerten, was sie als mögliche Anreize zwar denkbar aber trotzdessen suboptimal macht.
-    \item Wenn der Anreiz durch den Datennutzende gestellt wird, wird dieser in der Vielzahl der Fälle ein unterschiedlicher sein. Aus der Kommunukationsstruktur folgt das alle unterschiedlichen Kompensationen auf irgendeinem Weg über der Datentreuhänder laufen. Dies bedeutet einen enormen Aufwand an Entwicklung und Implementation.
-    \item Manche Datennutzende wie bspw. Forschungsinstitutionen haben keine Dienstleistungen oder Produkte die sie Datengebenden anbieten können. Sie sind ausschließlich an der Forschung interessiert und können den Datengebenden nichts bieten was sie zum preisgeben ihrer Daten veranlassen würde.
-    \item Viele C2B Treuhänder legen Wert auf die Anonymität oder Pseudonymität der Datengeber, welche durch die Beanspruchung von Angeboten der Datennutzer verloren gehen können. 
-    \item Der Datentreuhänder kann bei anderen Anreizen nicht garantieren dass der Datengebende die von ihm angeboten Dienstleistungen auch einhält. 
-\end{enumerate}
-Durch eine die Verwendung von Geld als Anreiz werden diese Punkte umgangen. Das Interesse der Datengebenden ist nun ausschließlich abhängig von dem Ruf und dem persönlichen Interesse an einem Datengebenden und nicht von dessen Anreizangebot. Die in Anspruchnahme des versprochenen Anreizes ist für jeden Datennutzenden gleich Implementiert und hängt maximal von der Wahl anderer Parameter ab. Es kann davon ausgegangen werden dass alle Datennutzenden über Geld verfügen und dieses als Kompensation verwenden können. Aufgrund der (trivialität?) des Wertes von Geld sind bereits viele Wegen bekannt wie diesen Wert anonym oder pseudony an andere überträgt. Der Datentreuhänder hat die volle Kontrolle, dass ein zu zahlender Geldbetrag vom Datennutzenden abgegeben wird und auch bei Datengebenden ankommt.\\
-
-
-%Kurz konkret erläutern was das genau Ziel der Arbeit ist und wie dies erreicht wird.
-%Für welches Datentreuhändermodell passt das Ziel am besten, wo kann man es eher schlecht einsetzen
-
-%Warum nicht Qualitätsicherung dem DT überlassen und keine reputation?
-
-
-%==================================================================================================
 
 
 \chapter{Entwurf der Systeme}
-\section{Generelles}
-% 
-In diesem Abschnitt wird genau beschrieben wie die Pay-First und Pay-Later Systeme aufgebaut sind und funktionieren. \\
-Um den Zahlungsablauf unabhängig von anderen Technologien wie Bankanbindungen o.ä. zu gestalten wird in den folgenden Systemen eine eigene interne Währung etabliert. Da diese ausschließlich innerhalb des Systems nutzbar ist trägt sie keinen bestimmten Namen und wird im folgenden mit Coin oder Coins referenziert. Zwar ist ein Tausch von Coins für Geld wie im Falle von Kryptowährungen möglich, allerdings ist der monetäre Wert eines Coins in diesem gespeichert, was den Tausch zu Spekulationszwecken sinnlos macht.\\
-Weiter sei angemerkt, dass für die Systeme ein weiterer Akteur in die Kommunikation mit dem Datentreuhänder eingeführt wird. Im Standartmodell eines Datentreuhänder existieren die Rollen des Datengebenden der seine Daten anbietet, des Datennutzenden der an den Daten des Datengebenden interessiert ist und die des Datentreuhänders der Datengebende und Datennutzende zusammenführt und deren Interaktion verwaltet. Im folgenden wird eine Datentreuhänder (Payment) eingeführt. Er ist ausschließlich für die Verwaltung von Zahlungsgeschäften zwischen Datennutzenden und Datengebenden zuständig. In der Regel ist angedacht diesen Akteur zusammen mit dem Datentreuhänder innerhalb eines Netzwerks oder Rechner laufen zu lassen, allerdings kann dieser auch separat an einer anderen Stelle laufen.\\
-Alle Kommunikationen zwischen 2 Akteueren sind mit ECC verschlüsselt sowie signiert, um Vertraulichkeit und Integrität zu gewährleisten.
+%geld als Anreiz, soll hauptsächlich verkäufer schützen, eigene coins, exchange als neuer akteur, ecc, einteilung in 3 phasen, welche betrugserkennung
+
+
+%erstellt und signiert coins, grober ablauf, auf welchem rl basiert, präziser ablauf in der Schrittbeschreibung
+
+%bezahlung, grober ablauf, auf welchem rl basiert, präziser ablauf in der Schrittbeschreibung
+
+%reputation, grober ablauf, auf welchem rl basiert, präziser ablauf in der Schrittbeschreibung
+Um einen privatsphäreschützenden Anreiz für die Benutzung eines Datentreuhänders zu schaffen, wird im folgenden ein Bezahlsystem vorgestellt. Da im Datentreuhandmodell ein Datennutzender meist durch ein Unternehmen oder eine Forschungseinrichtung repräsentiert wird, ist es verstellbar, dass der Datennutzende selbst eine Dienstleistung anbieten oder in Aussicht stellen kann. Hier wurde aber Geld als Anreiz gewählt, da die Verwendung solcher Dienstleistungen als Anreiz einige Nachteile mit sich ziehen können.
+
+\section{Geld als Anreiz}
+
+\begin{enumerate}
+    \item \textbf{Begehrtheit} Kein Handelsgut oder Dienstleistung ist so universelles begehrt wie Geld. Zwar ist es möglich das ein Business welches hier als Datennutzender auftritt, für die Preisgabe der Daten eine Dienstleistung anbietet. Bspw. können Social Media Plattformen wie X konstenlose zeitlichbedingte Premiumabonnenments oder vergleichbar Angebote in Aussicht stellen. Jedoch sind ist das Interesse an solchen Angeboten subjektiv, was sie als mögliche Anreize zwar denkbar aber eher suboptimal macht.
+    \item \textbf{Hoher Aufwand} Wenn der Anreiz durch den Datennutzende gestellt wird, wird dieser in jedem einzelnen Fall unterschiedlich sein. Aus der Kommunukationsstruktur folgt das alle unterschiedlichen Kompensationen auf irgendeinem Weg über der Datentreuhänder laufen müssen. Daraus ergibt sich einen enormer zusätzlicher Aufwand an Entwicklung und Implementation für jeden Datennutzenden.
+    \item \textbf{Verfügbarkeit} Manche Datennutzende wie bspw. Forschungsinstitutionen haben keine Dienstleistungen oder Produkte die sie Datengebenden anbieten können. Sie sind ausschließlich an der Forschung interessiert und können den Datengebenden nichts bieten was sie zum preisgeben ihrer Daten veranlassen würde.
+    \item \textbf{Wahrung der Anonymität} Viele C2B Treuhänder legen Wert auf die Anonymität oder Pseudonymität der Datengeber. Diese kann jedoch dadurch, dass eine Datennutzender die versprochene Dienstleistung kontrolliert verloren gehen. Es ist bspw. denkbar dass ein Datennutzender eine vielversprechenden Anreiz verspricht, diesen aber hinter einer Registrierung und Angaben von persönlichen Daten verbirgt, so dass die durch den Treuhänder etablierte anonymität umgangen wird.
+    \item \textbf{Einhalt der Leistung} Der Datentreuhänder kann bei der Auslagerung von Anreizen an den Datennutzenden nicht zuverlässig kontrollieren, dass der Datennutzende die versprochene Dienstleistung wirklich einhält.
+\end{enumerate}
+Durch eine die Verwendung von Geld als Anreiz werden diese Punkte umgangen. Das Interesse der Datengebenden ist nun ausschließlich abhängig von dem Ruf und dem persönlichen Interesse an einem Datengebenden und nicht von dessen Anreizangebot. Die in Anspruchnahme des versprochenen Anreizes ist für jeden Datennutzenden gleich Implementiert und hängt maximal von der Wahl anderer Parameter ab. Es kann davon ausgegangen werden dass alle Datennutzenden über Geld verfügen und dieses als Kompensation verwenden können. Aufgrund der (trivialität?) des Wertes von Geld sind bereits viele Wegen bekannt wie diesen Wert anonym oder pseudony an andere überträgt. Der Datentreuhänder hat die volle Kontrolle, dass ein zu zahlender Geldbetrag vom Datennutzenden abgegeben wird und auch bei Datengebenden ankommt.
+ 
+Im gegensatz zu GNU Taler soll es hauptsächlich den Verkäufer und dessen Informationen schützen. Die privatsphäre des Käufers ist von geringerer Bedeutung, da im Datentreuhändermodell der Käufer meist durch ein Unternehmen oder eine Forschungseinrichtung dargestellt wird. Hinzu kommt dass ein durch die Struktur eines Datentreuhänders, der Käufer dazu gezwungen ist eine Menge an Informationen anzugeben, um vom Datentreuhänder zugelassen zu werden. Der Verkäufer ist eine einzelne Privatperson die ihre gesammelten Daten bewusst an Unternehmen oder Forschungseinrichtungen verkaufen möchte. Der Schutz der Privatperson ist hier also von größerem Interesse.
+
+Um den Zahlungsablauf unabhängig von anderen Technologien wie Bankanbindungen o.ä. zu gestalten wird in den folgenden Systemen eine eigene interne Währung etabliert. Diese Währung wird im folgenden Coins genannt. Zwar ist ein direkter Tausch von Coins mit anderen Personen, wie im Falle von Kryptowährungen möglich, allerdings wird der monetäre Wert eines Coins bei der Erstellung festgelegt und in diesem gespeichert, was den Tausch zu Spekulationszwecken sinnlos macht.\\
+Weiter sei angemerkt, dass für die Systeme ein weiterer Akteur in die Kommunikation mit dem Datentreuhänder eingeführt wird. Im Standartmodell eines Datentreuhänder existieren die Rollen des Datengebenden der seine Daten anbietet, des Datennutzenden der an den Daten des Datengebenden interessiert ist und die des Datentreuhänders der Datengebende und Datennutzende zusammenführt und deren Interaktion verwaltet. Im folgenden wird eine Exchange eingeführt. Er ist ausschließlich für die Verwaltung von Zahlungsgeschäften zwischen Datennutzenden und Datengebenden zuständig. In der Regel ist angedacht diesen Akteur zusammen mit dem Datentreuhänder innerhalb eines Netzwerks oder Rechner laufen zu lassen, allerdings kann dieser auch separat an einer anderen Stelle laufen.\\
 
 \section{Coin Generierungsphase}
 Hier werden die Coins die im späteren Verlauf beider Systeme verwendet werden vom Datennutzenden erstellt und vom Datentreuhänder signiert. Die einzelnen Schritte sind in Abbildung \ref{fig:coin-generationphase} verdeutlich und werden im folgenden beschrieben.
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{CoinGenerationPhaseDiagramm.pdf}
     \caption{Coin Generierungsphase Ablauf}
     \label{fig:coin-generationphase}
 \end{figure}
 
-\paragraph{1. Zahlungseingang} $(DN$-$ID, ES \leftarrow ErhalteneSumme)$\\
-Der Datentreuhänder (Payment) erhält über einen beliebigen Weg eine Summe und eine Datennutzende ID. Die genaue Umsetzung des Zahlungseingang liegt bei dem Datentreuhänder (Payment). Er kann alles zwischen einer Banküberweisung mit der ID als Verwendungszweck, bis hin zu einem Briefumschlag mit Bargeld und einer leserlich aufgeschrieben ID sein. Nach Eingang einer Zahlung erstellt der Datentreuhänder (Payment) einen sogenannten CoinGenerationToken bestehend aus $(nonce, DN$-$ID, ES, spent \leftarrow false)$ und speichert diesen intern.
+% \paragraph{1. Konto erstellen (Optional)}  $(apk \leftarrow account-public-key)$
+%Als erster Schritt der Coin Generationphase, kann der Datennutzende sich eine Konto erstellen auf dem der CoinGenerationToken abgelegt wird. Ein neu hinzugekommener Datennutzender muss diesen Schritt zuerst mindestens ein Mal ausführen. Für allwelches e danach folgenden Generierungsphasen kann er sich entscheiden jedes Mal ein neues Konto zu erstellen oder ein bestehendes wieder zu verwenden. Ein Konto besteht aus einem public key. Der Datennutzende der dieses erstellt hat, hält den dazu gehörigen private key. Das Konto stellt ein Pseudonym dar, 
 
-\paragraph{2. CoinGenerationToken abrufen} $(DN$-$ID)$\\
-Da je nach Zahlmethode große zeitliche Abstände zwischen Zahlungsabsendung und -eingang entstehen kann und nicht gewährleistet werden kann, dass der Datennutzende zum Zeitpunkt des Zahlungseingangs erreichbar ist, kann der Datentreuhänder (Payment) ihn nicht zuverlässig benachrichtigen. Aufgrund dessen kann der Datennutzende beim Datentreuhänder (Payment) nachfragen ob es offene CoinGenerationToken für ihn gibt. Dies wird in diesem Schritt getan.
+\paragraph{1. Zahlungseingang} $(apk \leftarrow AccountPublicKey, ES \leftarrow ErhalteneSumme)$\\
+Der Exchange erhält über einen beliebigen Weg eine Summe und einen Konto public key. Die genaue Umsetzung des Zahlungseingang liegt bei dem Exchange. Er kann alles zwischen einer Banküberweisung mit der $apk$ als Verwendungszweck, bis hin zu einem Briefumschlag mit Bargeld und einem leserlich aufgeschriebenen $apk$ sein. Nach Eingang einer Zahlung erstellt der Exchange einen sogenannten CoinGenerationToken bestehend aus $(nonce, apk, ES, spent \leftarrow false)$, verschlüsselt ihn mit dem $apk$ und speichert diesen intern.
 
-\paragraph{3. CoinGenerationToken übertragen} $[(nonce, DN$-$ID, ES)]$\\
-Auf eine CoinGenerationToken Anfrage des Datennutzenden antwortet der Datentreuhänder (Payment) mit allen noch nicht eingelösten Token. Nachdem der Datennutzende die Token erhalten hat, kann er damit beginnen selbst Coins zu erstellen. Ein Coin besteht aus $(nonce, value)$. Bei der Erstellung sind 2 Sachen zu beachten. Zuerst muss der summierte Wert aller erstellten Coins gleichgroß sein wie die $ES$ des Tokens. Des weiteren gibt es eine Menge an möglichen Werten $PV$, sodass $\forall value\in  PV$ gilt. Dies ist vor allem wichtig, da $value$ bei der Signierung und bei der Einlösung des Coins für den Datentreuhänder (Payment) sichtbar sind und dieser bei einer Wahl von selten vorkommenden $value$ ein Verbindung zwischen den Phasen herstellen kann.
+\paragraph{2. CoinGenerationToken abrufen} $(apk)$\\
+Da der Exchange nur den $apk$ erhält, hat er keine Möglichkeit den CoinGenerationToken einem Datennutzenden zuzuweisen. Jetzt kann jeder beliebige Nutzer alle Einträge für einen $apk$ abfragen. Allerdings ist nur der Datennutzende in der Lage den CoinGenerationToken zu entschlüsseln, der den passenden secret key zum $apk$ hat. Dies ist im Idealfall nur der Datennutzende der die Transaktion getätigt hat.
 
-\paragraph{4. Signierung Anfragen} $(nonce, DN$-$ID, ES), [(\widehat{nonce},value)]$\\
-Eine Signieranfrage besteht aus einem CoinGenerationToken und einer Menge an Coins die partiell geblindet wurden, sodass $value$ einsehbar ist aber $nonce$ geblindet wurde. Zuerst kann der Datentreuhänder (Payment) prüfen ob der gesendete Token noch nicht eingelöst wurde. Anschließend summiert er alle $value$ auf und prüft ob die Summe gleich dem $ES$ des Tokens ist. Wenn beide Überprüfungen akzeptieren, kann der Datentreuhänder (Payment) die Coins partiell blind signieren und bei seinem gespeichert Token $spent \leftarrow true$ setzen, um eine doppelte Einlösung zu verhindern.
-\\\\
-\textbf{Gestrichelte Pfeile}\\
+\paragraph{3. CoinGenerationToken übertragen} $[(nonce, apk, ES)]$\\
+Auf eine CoinGenerationToken Anfrage des Datennutzenden antwortet der Exchange mit allen noch nicht eingelösten Token für den $apk$. Nachdem der Datennutzende die Token erhalten hat, kann er diesen zuerst mit dem passenden secret key entschlüsseln. Im Anschluss kann er selbst Coins erstellen. Ein Coin besteht aus $(nonce, value)$. Bei der Erstellung sind 2 Sachen zu beachten. Zuerst muss der summierte Wert aller erstellten Coins gleichgroß sein wie die $ES$ des Tokens. Des weiteren gibt es eine Menge an möglichen Werten $PV$, sodass $\forall value\in  PV$ gilt. Dies ist vor allem wichtig, da $value$ beim Signieren und Einlösen des Coins für den Exchange sichtbar ist und dieser bei einer Wahl von selten vorkommenden $value$ ein Verbindung zwischen den Phasen herstellen kann.
+
+\paragraph{4. Signierung Anfragen} $(nonce, apk, ES), [(\widehat{nonce},value)]$
+Eine Signieranfrage besteht aus einem CoinGenerationToken und einer Menge an Coins die partiell geblindet wurden, sodass $value$ einsehbar ist aber $nonce$ geblindet wurde. Zuerst kann der Exchange prüfen ob der gesendete Token noch nicht eingelöst wurde. Anschließend summiert er alle $value$ auf und prüft ob die Summe gleich dem $ES$ des Tokens ist. Wenn beide Überprüfungen akzeptieren, kann der Exchange die Coins partiell blind signieren und bei seinem gespeichert Token $spent \leftarrow true$ setzen, um eine doppelte Einlösung zu verhindern.\\\\
+
+\textbf{Gestrichelte Pfeile}
 Die Pfeile zwischen 4. und 5. sind hier gestrichelt eingetragen, da sie notwendige Kommunikationsschritte von partiell blinden Signaturen abbilden. Sie sind essentiell für die Funktionsweise und wurden bereits in \ref{sec:partBlindSig} erklärt, weshalb sie hier nur zur Vollständigkeit aufgelistet aber nicht weiter benannt werden.
 
 \paragraph{5. Signieranfrage Antwort} $[(sign(\widehat{nonce}),value)]$ \\
-Vorrausgesetzt alle Überprüfungen aus Schritt 4 akzeptieren, so erhält der Datennutzende nun eine Menge an partiell blinden signierten Coins, kann diese wieder unblinden und für spätere Verwendung lokal speichern. Sollten die Überprüfungen nicht akzeptieren, so kann der Datennutzende entweder bei Schritt 4 mit anderen Coins oder bei Schritt 2 wieder ansetzen.\\\\
+Vorrausgesetzt alle Überprüfungen aus Schritt 4 akzeptieren, so erhält der Datennutzende nun eine Menge an partiell blinden signierten Coins, kann diese wieder unblinden und für spätere Verwendung lokal speichern. Sollten die Überprüfungen nicht akzeptieren, so kann der Datennutzende entweder bei Schritt 4 mit anderen Coins oder bei Schritt 2 wieder ansetzen.
 
-Auf diese Weise kann ein Datennutzender Geld bei einem Datentreuhänder (Payment) einzahlen und eine dem Geldbetrag entsprechende Menge an Coins erhalten, ohne dass der Datentreuhänder (Payment) die von ihm ausgehändigten Coins nachverfolgen. Gleichzeitig ist es für einen Datennutzende nicht möglich Coins zu erhalten für die er keinen monetären Gegenwert bereitgestellt hat.
+Auf diese Weise kann ein Datennutzender Geld bei einem Exchange einzahlen und eine dem Geldbetrag entsprechende Menge an Coins erhalten, ohne dass der Exchange die von ihm ausgehändigten Coins nachverfolgen kann. Gleichzeitig ist es für einen Datennutzende nicht möglich Coins zu erhalten für die er keinen monetären Gegenwert bereitgestellt hat.
+
+Zusätzlich ist zu erwähnen, dass Exchanges finanziell motiviert sein können oder eine Gebühr verlangen möchten, um bspw. laufende Serverkosten zu decken. Sollte dies der Fall sein, kann vor dem Beginn der Coin Generationphase vom dem Exchange eine feste Gebühr vorgeschrieben werden. Wenn sich ein Datennutzender trotz der Gebühr dazu entscheidet diesen Exchange zu verwenden, so kann der Exchange nach dem Eingang einer Zahlung in Schritt 1, einen CoinGenerationToken erstellen, welcher die Gebühr bereits abzieht. Wenn also ein Datennutzender eine Transaktion von $100$\texteuro bei Exchange mit $10\%$ Gebühr tätigt, so erstellt der Exchange einen CoinGenerationToken für den angegebenen $apk$ mit $ES \leftarrow 90$\texteuro. Dadurch kann eine Exchange seine finanziellen Interessen geltend machen. Auch wenn es nicht das Ziel eines Exchanges sein sollte wirtschaftlich zu handeln, lässt so immerhin verhindern, dass ein Exchange mit den Betriebskosten Minus macht.
 
 \section{Bezahlvorgang}
 
 \section{Reputationsvergabe}
 
-
-
-
-%Designentscheidungen erklären. Darauf eingehen warum der gewählte Ansatz am besten ist und warum er nicht noch weiter verbessert werden kann/soll
-
-%Da ein DN einen Datentype beim DT anfragt, kriegt er denk ich mal Datensätze von vielen DG. Soll das system dafür "Batchpayment" anbieten, sodass der DN nur eine Transaktion macht und nicht mit jedem einzelnen DG eine eigene?
-
-%ie soll die Auswahl von DG stattfinden? DN kann threshold angeben? DN kann DG direkt auswählen
-%=> Erstmal mit threshold anfangen. Sollte das später nicht funktionieren kann auch auf DG mit reputation herauspicken geswitched werden
-
-%Zahlungsdaten werden nicht über Merchant geleitet da dieser entschlüsseln kann \cite{pant2011secure}
 
 %==================================================================================================
 
@@ -471,23 +473,22 @@ security bit level performance
 \vspace*{\fill}
 \pagestyle{empty}
 
-{\normalsize
-\begin{center}\textbf{Eidesstattliche Erklärung}\end{center}
-Hiermit versichere ich an Eides statt, dass ich die vorliegende Arbeit im Bachelorstudiengang Software-System-Entwicklung
-selbstständig verfasst und keine anderen als die angegebenen Hilfsmittel –- insbesondere keine im Quellenverzeichnis nicht benannten Internet-Quellen –- benutzt habe. Alle Stellen, die wörtlich oder sinngemäß aus Veröffentlichungen entnommen wurden, sind als solche kenntlich gemacht. Ich versichere weiterhin, dass ich die Arbeit vorher nicht in einem anderen Prüfungsverfahren eingereicht habe.
-\vspace*{1cm}\\
-Hamburg, den \today
-\hspace*{\fill}\begin{tabular}{@{}l@{}}\hline
-\makebox[5cm]{Vorname Nachname}
-\end{tabular}
-\vspace*{3cm}
+{
+    \normalsize
+    \begin{center}
+        \textbf{Eidesstattliche Erklärung}
+    \end{center}
+    Hiermit versichere ich an Eides statt, dass ich die vorliegende Arbeit im Bachelorstudiengang Software-System-Entwicklung
+    selbstständig verfasst und keine anderen als die angegebenen Hilfsmittel –- insbesondere keine im Quellenverzeichnis nicht benannten Internet-Quellen –- benutzt habe. Alle Stellen, die wörtlich oder sinngemäß aus Veröffentlichungen entnommen wurden, sind als solche kenntlich gemacht. Ich versichere weiterhin, dass ich die Arbeit vorher nicht in einem anderen Prüfungsverfahren eingereicht habe.
+    \vspace*{1cm}\\
+    Hamburg, den \today
+    \hspace*{\fill}\begin{tabular}{@{}l@{}}\hline
+    \makebox[5cm]{Knut Hoffmeister}
+    \end{tabular}
+    \vspace*{3cm}
 }
 \vspace*{\fill}
 
-\begin{raggedright}         % Schaltet Blocksatz ab, erzeugt ein stimmigeres
-%    \bibliography{references.bib}        % Falls Biblatex verwendet wird.
-    \printbibliography
-    \label{sec:literaturverzeichnis}
-\end{raggedright}
+\printbibliography
 
 \end{document}

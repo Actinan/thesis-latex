@@ -1,9 +1,6 @@
-main.aux
-main.bbl
-main.bcf
-main.blg
-main.log
-main.out
-main.run.xml
-main.synctext.gz
-main.toc
+main.*
+!main.tex
+!main.bib
+!main.pdf
+stylesvs.*
+!stylesvs.tex
