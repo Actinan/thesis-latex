@@ -86,6 +86,7 @@ Unter anbetracht des hohen Wertes von Daten sind viele Unternehmen verständlich
 Aus der kapitalgetriebenen Sicht eines Unternehmens besitzt das Teilen der eigenen Daten keinen direkten Nutzen. Da ein Unternehmen seine eigenen Gewinnmaximierung anstrebt, ist das Teilen von Daten eher ein Nachteil, da fremde Unternehmen mit den selbst gesammelten Daten ihre Produkte qualitativ erweitern können. Dadurch werden entweder andere Wettbewerben oder branchenfremde Unternehmen in ihrem Marktwert gefördert, was zu dem sinken des eigenen Marktwertes führt. \\
 Diese protektive Herangehensweise kann allerdings auch der Gewinnmaximierung im Weg stehen. Im Fall von einem direkten Tausch an Daten können beide Parteien einen Profit aus der Interaktionen erwirtschaften. Die Bundesregierung selbst schreib in \cite{dt-bundesregierung2021datenstrategie} das kaum Datenkooperationen zwischen staatlichen und wirtschaftlichen Akteurinnen bestehen, obwohl die staatlich gesammelten Daten eine Grundlage für wirtschaftliche Innovation sein könnten. Im Gegenzug könnten die Daten von Unternehmen dem Staat bei der Sicherstellung seines Versorgungsauftrages, der Daseinsvororge und der Wahrung öffentlicher Schutzgüter helfen. Dies ist eine optimale Situation für die Verwendung eines Datentreuhänders.
 \section{Datentreuhänder}
+\label{sec:dt}
 Ein Datentreuhänder ist ein neutraler vertrauenswürdiger Vermittler von Daten eines Datengebenden zu einem Datennutzenden. Er hat selbst kein kommerzielles Interesse an der Verwertung der Daten und agiert vergleichbar zu einem Notar strickt für den Datengeber. Seine Hauptaufgaben umfassen meist die Kontrolle von Zugriffsrechten, das Kontrollieren von Einhaltung der Datenschutzrichtlinien, sowie das verschlüsseln oder anonymisieren von Datenbeständen. In speziellen Fällen kann ein Datentreuhänder auch die Auswertung von Daten vornehmen. \cite{dt-bundesregierung2021datenstrategie}\cite{dt-richter2020ddvtalk}
 
 Da wie bereits angeführt viele Unternehmen die Weiterleitung ihrer Daten vermeiden, ist unter der Annahme eines etablierten Datentreuhänders ein deutliche größerer Datenbestand verfügbar. Bereits heute - vor einer großen Etablierung von Datentreuhänder - verspricht das Konzept einige gesellschaftliche Vorteile: \cite{dt-richter2020ddvtalk}
@@ -401,6 +402,7 @@ Durch eine die Verwendung von Geld als Anreiz werden diese Punkte umgangen. Das 
  
 
 \section{Generelles}
+%PKI für schlüssel assumen
 Im gegensatz zu GNU Taler soll das Bezahlsystem hauptsächlich den Datengebenden und dessen Informationen schützen. Die privatsphäre des Datennutzenden ist von geringerer Bedeutung, da im Datentreuhändermodell der Datennutzende meist durch ein Unternehmen oder eine Forschungseinrichtung dargestellt wird. Hinzu kommt dass durch die Struktur eines Datentreuhänders, der Datennutzende dazu gezwungen ist eine Menge an Informationen anzugeben, um vom Datentreuhänder zugelassen zu werden. Der Datengebende hingegen ist eine einzelne Privatperson die ihre gesammelten Daten bewusst an Unternehmen oder Forschungseinrichtungen verkaufen möchte. Der Schutz der Privatperson ist hier also von größerem Interesse. 
 
 Unter diesen Umständen ist eine herkömmliche Überweisung per Bank deutlich zu unsicher. Sie benötigt Information wie die IBAN des belasteten Kontos und die IBAN des empfangenden Kontos, um zu wissen von wo nach wo eine Geldsumme fließen soll. Dadurch werden bereits zu viele Informationen über den Datengebenden bekannt, da der Datennutzende nun genau bestimmen kann von wem die erworbenen Daten stammen und ob er bereits vorher schon von demselben Datengebenden Daten gekauft hat. Zusätzlich kann die Bank nachvollziehen, dass eine Privatperson sich als Datengebender angemeldet hat und wem sie ihre Daten bereits verkauft hat.
@@ -448,6 +450,69 @@ Auf diese Weise kann ein Datennutzender Geld bei einem Exchange einzahlen und ei
 Zusätzlich ist zu erwähnen, dass Exchanges finanziell motiviert sein können oder eine Gebühr verlangen möchten, um bspw. laufende Serverkosten zu decken. Sollte dies der Fall sein, kann vor dem Beginn der Coin Generationphase vom dem Exchange eine feste Gebühr vorgeschrieben werden. Wenn sich ein Datennutzender trotz der Gebühr dazu entscheidet diesen Exchange zu verwenden, so kann der Exchange nach dem Eingang einer Zahlung in Schritt 1, einen CoinGenerationToken erstellen, welcher die Gebühr bereits abzieht. Wenn also ein Datennutzender eine Transaktion von $100$\texteuro  bei Exchange mit $10\%$ Gebühr tätigt, so erstellt der Exchange einen CoinGenerationToken für den angegebenen $apk$ mit $ES \leftarrow 90$\texteuro. Dadurch kann eine Exchange seine finanziellen Interessen geltend machen. Auch wenn es nicht das Ziel eines Exchanges sein sollte wirtschaftlich zu handeln, lässt so immerhin verhindern, dass ein Exchange mit den Betriebskosten Minus macht.
 
 \section{Bezahlvorgang}
+Nun wo die Coins erstellt und signiert sind, kann damit angefangen werden sich mit dem ausgeben dieser Coins zu beschäftigen. Dafür gibt es das Bezahlsystem welches es Datennutzenden erlaubt die Daten von Datengebenden anzufragen. Diese können der Anfrage nachkomme wofür sie der Datennutzende im Gegenzug mit den Coins entlohnt. Damit bei dem Vorgang die Privatsphäre des Datengebende so gut wie möglich geschützt wird, findet der Austausch der Daten und Coins über Postfächer beim Datentreuhänder statt. Dadurch entsteht keine direkte Kommunikation zwischen Datengebenden und Datennutzenden welche potentiell schützenswerte Informationen wie IP oder dergleichen preisgibt. Wie der Ablauf genau funktionert wird im folgenden erklärt.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{PaymentDiagramm.pdf}
+    \caption{Bezahlsystem Ablauf}
+    \label{fig:payment}
+\end{figure} 
+
+\paragraph{1. Aufruf starten} $(datatype, reputationThreshold, price)$\\
+Der Datennutzende erstellt beim Datentreuhänder einen Aufruf zur Datenteilung. Damit verkündet er an alle Datengebenden, dass er Daten von einem bestimmten Typ sucht und nennt direkt wieviel er für diese Daten bereits ist zu bezahlen. Da der Datennutzende nach Anlegung des Aufrufs direkt Daten erhalten kann für die er Zahlen muss, braucht es eine Möglichkeit ein gewisses Vertrauensminimum festzulegen. Der $reputationThreshold$ gibt dabei einen Schwellwert an, so dass der Aufruf nur für Datengebende mit einer Reputation über diesem Schwellwert sichtbar ist.
+
+Im Datentreuhändermodell ist noch ein weiterer Kommunikationstart denkbar. Es besteht die Option, dass ein Datengebender seine Daten beim Datentreuhänder anbietet und sich Datennutzende aus einer bereits bestehenden Auswahl von Angeboten welche aussuchen. Jedoch skaliert dieser Ansatz schlechter da der Datennutzende in der Regel an großen Mengen von Daten interessiert sind, was zu mehr Rechenaufwand auf Seiten des Datennutzenden führt. Deswegen wird von dem beschrieben Aufrufansatz ausgegangen.
+
+\paragraph{2. Aufrufliste anfragen} $(DG$-$ID)$
+\todo{Erst nach reputationssytem }
+
+\paragraph{3. Aufrufliste Antwort} $([callDetails, DN$-$publicKey])$\\
+Nachdem der Datengebenden seine Reputation bewiesen hat, kann der Datentreuhänder seine lokal Datenbank mit Aufrufen durchsuchen und alle Aufrufe welche einen Reputationsschwellwert niedriger als die bewiesen Reputation haben in eine Liste aufnehmen. Damit besteht jeder Eintrag der List dem publicKey des Datennutzenden der den Aufruf gestartet hat und Aufrufdetails die wichtige Informationen bezüglich des Aufrufs geben. Die genauen Inhalte der Aufrufdetails sind Treuhänderabhängig, da je nach Gebiet des Treuhänders verschieden Details über den Datennutzende für die Entscheidung des Datengebenden wichtig sein können. In den meisten Fällen umfassen die Aufrufdetails Daten wie die angefragte Datentypkategorie (GPS-Daten, persönliche Daten, etc.), den Namen des Datennutzenden, den Preis den jeder Datengebende ausgezahlt bekommen soll, einen Titel oder eine Beschreibung. Auch Informationen wie ob es sich bei dem Datennutzenden um eine Forschungseinrichtung handelt werden können hier kommuniziert werden.
+
+
+\paragraph{4. Daten teilen} $(DN$-$pk, \{sharedKey\}_{DN-pk}, \{referenceCode, dataLocation, dataKey\}_{sharedKey})$\\
+Der Datengebende hat die genannten Aufrufdetails erhalten und sich dazu entschieden, seine Daten für einen Aufruf mit einem Datennutzenden zu teilen. Generell gilt wie in \ref{sec:dt} erklärt, dass ein Datengebender seine Daten nicht selbst speichert sondern sie verschlüsselt beim Datentreuhänder lagert. Er behält nur den Speichort und Schlüssel der Daten um jederzeit Zugriff auf diese zu haben. Um seine Daten mit einem Datennutzenden zu Teilen, genügt es daher den Speicherort und Schlüssel zu übertragen.
+
+Für die Übertragung des Speicherorts und Schlüssels wird ein Postfach beim Datentreuhänder verwendet. So kann ein direkter Austausch zwischen Datengebenden und Datennutzenden verhindert werden. Ein Datengebender kann Ort und Schlüssel verschlüsselt in das Postfach legen und nur der Datennutzende der das Wissen über den passenden privaten Schlüssel besitzt kann Ort und Schlüssel wieder entschlüsseln.
+
+Einer der Betrugserkennungsmechanismen ist die Offenlegung der Kommunikation im Streitfall, so dass der Datentreuhänder die Nachrichten einsehen kann und entscheiden kann welche der Parteien recht hat. Damit bei dieser Offenlegung nur genau die Nachrichten entschlüsselt werden, die Teil einer spezifischen Kommunikation zwischen Datengebenden und Datennutzenden sind, wird für jede Abwicklung eines Tausches ein neuer symmetrischer Schlüssel erstellt.\\
+
+Damit ein Datengebender einen Eintrag in das Postfach zu Teilen von Daten senden kann, muss er zuerst die folgenen Informationen bestimmen. Zuerst wird der publicKey des Datennutzenden im Klartext angegeben, da ein Datennutzender beim Abfragen des Postfaches so bestimmen kann, welche Einträge für ihn bestimmt sind. Anschließend wird ein neuer symmetrischer Schlüssel $sharedKey$ erstellt. Dieser wird mit dem publicKey des Datennutzenden verschlüsselt, damit mit dieser den $sharedKey$ kennt. Nun kann der Datengebende den $sharedKey$ verwenden, um das Tupel aus $dataLocation$, $dataKey$ und $referenceCode$ zu verschlüsseln. Hierbei sind $dataLocation$ und $dataKey$ die eben beschriebenen Speicherort und Schlüssel der Daten beim Datentreuhänder. Dabei sei angemerkt, dass sowohl $dataLocation$ als auch $dataKey$ mehr als nur eine Variable sein können und von dem vom Datentreuhänder verwendeten Speicherverfahren und Verschlüsselungsverfahren abhängen. Der $referenceCode$ ist eine zufällige Zahl, die später bei Schritt 9 verwendet wird, um eine Zugehörigkeit von Übertragen der Daten und Coins herzustellen.
+
+\paragraph{5. Datenpostfach abfragen} $(DN$-$pk)$\\
+Der Datennutzende kann sich zu einem beliebigen Zeitpunkt dazu entscheiden, alle Nachrichten die den angegeben publicKey enthalten anzufragen. Dafür muss er den gewünschten publicKey mitübertragen, um den Datentreuhänder zu signalisieren, an welchen Nachrichten er interesse hat. Der publicKey muss hier bei jeder Anfrage spezifiziert werden, da zum einen keine Form an Authentifizierung stattfindet und jeder alle Nachrichten eines publicKeys anfragen kann. Zum anderen bleibt dem Datennutzenden so die Möglichkeit offen, für jeden Aufruf einen eigenes Schlüsselpaar zu verwenden. Dies kann bspw. große Vorteile bei der internen Organisierung haben.
+
+\paragraph{6. Datenpostfach Antwort} $([\{sharedKey\}_{DN-pk}, \{referenceCode, dataLocation, dataKey\}_{sharedKey}])$\\
+Nachdem der Datentreuhänder die Anfrage an das Datenpostfach erhalten hat, erstellt er eine Liste mit Postfacheinträgen, die den publicKey der Anfrage im Klartext angegeben haben. Die einzelnen übertragenen Postfacheinträge können dabei auf den publicKey verzichten, da dieser nur zu Identifizierung genutzt wird. Der Datennutzende kennt den publicKey ohnehin da er ihn in der Anfrage definiert. Die vollständige alle Postfacheinträge kann zurück an den Datennutzenden gesendet werden.
+
+\paragraph{7. Daten anfragen} $(dataLocation)$\\
+Der Datennutzende kann nun für jeden empfangen Postfacheintrag, den passenden secretKey verwenden, um den sharedKey des Eintrags zu entschlüsseln. Solange der Datengebende sich an das Protokoll gehalten hat und den Schlüssel den er zum verschlüsseln des Datentupels verwendet hat auch als Klartextschlüssel angegeben hat, funktioniert dieser Schritt einwandfrei und der Datennutzende erhält Zugang zu $dataLocation$, $dataKey$ und $referenceCode$. Jetzt kann er den Datentreuhänder nach den Daten an der angegebenen $dataLocation$ fragen, welche mit dem $dataKey$ verschlüsselt sind.
+
+\paragraph{8. Daten Antwort} $(\{data\}_{dataKey})$\\
+Die durch die $dataLocation$ beschriebenen Daten werden durch den Datentreuhänder ausgelesen. Da auch hier wieder keine Authentifizierung stattfindet, kann jeder einen beliebigen Datensatz beim Datentreuhänder anfragen erhält die an der Stelle gespeichert Daten. Da allerdings nur der Datennutzende, welcher den $dataKey$ vorher erhalten die Daten lesen kann, ist das wahllose anfragen von Daten beim Treuhänder sinnlos, da ohne Wissen über die $dataLocation$ nur Teile eines Datensatzes oder Überlappungen in andere Datensätze geschehen können, welche verschiedene $dataKeys$ benötigen würden. Der Datentreuhänder kann daher mit den ausgelesenen Daten antworten ohne Schlüsse ziehen zu können, wer die Daten angefragt hat oder ob die Nachfrage Teil eines Tausches zwischen Datengebenden und Datennutzenden ist.
+
+Nach erhalt der verschlüsselten Daten kann der Datennutzende den zu den Daten gehörenden $dataKey$ verwenden, um die Daten zu entschlüsseln und an den Klartext zu gelangen. Jetzt kann der Datennutzende die Daten für seine Zwecke verwerten.
+
+\paragraph{9. Coins in Postfach legen} $(referenceCode, \{[nonce,value]\}_{sharedKey})$\\
+\label{para:payment_9}
+Mit der Verwertung abgeschlossen kann der Datennutzende nun den Datengebenden bezahlen. Dafür läd er eine Liste an Coins aus seinem Speicher die in der Summe gleich dem im Aufruf ausgeschrieben Preis sind. Er verwendet den in Schritt 6 erhaltenen $sharedKey$, um die Liste an Coins zu verschlüsseln. Anschließend verwendet er den ebenfalls in Schritt 6 erhaltenen $referenceCode$, um zusammen einen Eintrag an das Coinpostfach zu senden.
+
+Da der $referenceCode$ von dem Datengebenden mit dem $sharedKey$ verschlüsselt wurde, ist davon auszugehen, dass ein Eintrag mit dem gleichen $referenceCode$ nur von dem Datennutzenden stammen kann, der den Aufruf gestartet hat und die Daten erhalten und verwertet hat.
+
+\paragraph{10. Coinpostfach abfragen} $(referenceCode)$\\
+Da ein Datengebender nach dem Erstellen eines Datenpostfacheintrags den dort genutzten $referenceCode$ lokal als offen abspeichert, kann er nun bei Bedarf den Datentreuhänder fragen, ob es bereits einen Eintrag in dem Coinpostfach mit diesem $referenceCode$ gibt. Er kann somit den Datentreuhänder fragen ob er für das Teilen seiner Daten bereits bezahlt wurde.
+
+\paragraph{11. Coinpostfach Antwort} $(\{[nonce,value]\}_{sharedKey})$\\
+Wenn der Datennutzende bereits einen Eintrag mit den verschlüsselten Coins eingesendet hat, so werden die unter dem $referenceCode$ angegebenen verschlüsselten Coins an den Datengebenden zurück gegeben. Der Datengebende kann daraufhin den $sharedKey$, welcher in Kombination mit dem $referenceCode$ gespeichert wurde, verwenden um die erhaltenen Coins wieder zu entschlüsseln. Wenn er anschließend die Liste an Coins erhält, kann er überprüfen, dass die Summe der Coins auch den Preis des Aufrufs ergibt und dass die partiell blinde Signatur, welche in der Coin Generierungsphase Schritt 4. und 5. ausgestellt wurde, auch tatsächlich valide ist. Sollten diese Tests beide akzeptieren, so kann der Datengebende die Coins lokal speichern bis er sie einlösen möchte.
+
+\paragraph{12. Coins einlösen} $([nonce,value], address)$
+Ein Datengebender kann seine angesammelten Coins jederzeit einem Exchange senden. Dafür kann er die in Schritt 11 gespeicherten Coins aus dem Speicher lesen und gesammelt oder einzeln zusammen mit einer Form an Zahlungsadresse an einen Exchange übertragen. Dabei ist die Form der $address$ vom Exchange abhängig. Bei der Implementation wird das Übertragen einer IBAN verwendet, allerdings ist es genauso gut möglich stattdessen eine Bitcoin Walletadresse oder eine beliebige andere Zahlungsmöglichkeit zu verwenden. Ein Exchange kann auch mehrere Zahlungsoptionen gleichzeitig anbieten in welchem Fall dann die Zahlungsoption als zusätzlicher Parameter mit übertragen werden muss.
+
+\paragraph{13. Bestätigung} $([nonce, status \in \{true, false\}])$
+Nachdem die Coins beim Exchange eingetroffen sind, überprüft dieser ob die Coins bereits vorher schon eingelöst wurden und ob die partiell blinde Signatur gültig ist. Anschließend meldet er dem Datengebenden den Status der Coins zurück. Dafür erstellt er eine Liste, die für jeden Coin den $nonce$ zur Zuteilung, sowie einen boolean Wert der angibt ob der jeweilige Coin akzeptiert wurde, und sendet diese zurück.
+
+\paragraph{14. Geld austeilen} $(address)$
+Hier wird abschließend eine ausgehende Zahlung vom Exchange zu der angegebenen Zahlungsadresse getätigt. Die genau kommunizierten Daten sind hier von der Zahlungsoption abhängig. Allerdings muss hier sichergestellt werden, dass der ausgehende Betrag genau dem Wert der eingelösten Coins gleicht.
 
 \section{Reputationsvergabe}
 
@@ -456,49 +521,54 @@ Zusätzlich ist zu erwähnen, dass Exchanges finanziell motiviert sein können o
 
 
 \chapter{Implementation}
-Wird kurz gehalten. Implementierung beschreiben
+%schritt 4 braucht auch pk des dg -> für jeden neues keypair erstellen
+%schritt 5 hinzufügen von index für benutzbarkeit
 
 \section{TRESOR Projekt}
 
 %==================================================================================================
 
 \chapter{Auswertung}
-Evaluation ist wichtiger als guter Ansatz
+\section{Bewertung der Sicherheit}
+%Sicherheit gegen Angreifer Modelle:
+%    - honest but curios DT
+%    - honest but curios Exchange
+%    - bösartige DN
+%    - bösartige DG
+\subsection{Definition der Angreifermodelle}
 
-Sicherheit gegen Angreifer Modelle:
-    - Honest but curios DT
-    - bösartige DN
+\section{Analyse des Rechenaufwands}
+\subsection{Metrics}
+%ECC vs RSA
+%security bit level performance
 
-
-
-Graphs and Stats to make:
-ECC vs RSA
-weighted shifting average vs linear reputation calculation
-security bit level performance
+%Kryptographische Operationen aufsummieren
+%Anzahl an interaktionen miteinbeziehen
+%Erwarteter Aufwand schätzen
+%Mit erhaltenen Zahlen vergleichen
 
 \section{Setup / Implementation}
+%Kein transmission delay da nur localhost
 
-\section{Metrics}
 
 %==================================================================================================
 
 
 \chapter{Bewertung}
-
 \section{Erfüllen der Anforderungen}
 
-\section{Research question 1}
-
-\section{Research question 2}
+\section{Wie kann ein privatsphäreschützender Anreiz zur Benutzung eines Datentreuhändermodells geschaffen werden?}
+\section{Wie kann dieser Anreiz gegen Missbrauch geschützt werden?}
 
 \section{(Discussion)}
+% schutz gegen veröffentlichung von calls sodass jeder zugang hat ist überflüssig -> streitfall
 
 
 %==================================================================================================
 
 
 \chapter{Begrenzungen}
-
+%  Lösen des Streitfalls legt viele Daten offen, braucht meist Menschen der bewertet
 
 %==================================================================================================
 
