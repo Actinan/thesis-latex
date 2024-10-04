@@ -250,6 +250,9 @@ Zuerst erstellt der Nutzer \textit{C} (Client) einen Tokenseed $t$ mit $t {\in}_
 \end{figure}
 Der Nutzer beginnt damit einen gespeicherten signierten Token auszulesen und einen anfragenabhängigen Wert $R$ zu berechnen. Dieser könnte einfach die Domain der Anfrage sein. Er generiert einen shared Key $K$ aus dem Tokenseed und dem signierten Token und verschlüsselt $R$ mit $K$ als Key. Daraufhin sendet er das Tupel aus Tokenseed $t$ und $s\leftarrow MAC_{K}(R)$ mit shared Key verschlüsseltem $R$ an den Server. Der Server prüft, ob $t$ bereits für eine vorherige Anfrage verwendet wurde. Falls dies nicht der Fall ist, berechnet er auf Grundlage von $t$ alle Schritte des Nutzers und erhält so ein $s'$. Sollte $s'=s$ gelten, dann ist der Token valide, das CAPTCHA kann übersprungen werden und der Nutzer erhält Zugriff auf die angefragt Webressource.
 
+\paragraph{Batch Discrete Log Equivalence Proof}
+Beim dem BDLEQ handelt es sich um einen zero knowledge proof. Zero knowledge proofs sind ein in der Kryptographie auftretendes Beweismuster, dass das Wissen über einen Wert belegen kann ohne den Wert tatsächlich zu nennen. Der hierverwendete Discrete Log Equivalence Proof kann wie sich aus dem Namen ableiten lässt dazu verwendet werden, die Gleichheit von zwei diskreten Logarithmen zu zeigen. Für die genau Anwendung wird hier auf die Arbeit von Davidson et al. \cite{pp-davidson2018privacy} verwiesen. Dieser Beweis wird aus dem Grund erstellt, dass ein CDN ansonsten für das Signieren von jedem Token ein unterschiedliches Schlüsselpaar verwenden kann. Die Folgenden davon sind, eine mögliche Deanonynmisierung, da der CDN beim Einlösen des Tokens anhand des verwenden Signierschlüssels der einmalig ist, den Signierzeitpunkt und zugehörigen Nutzer bestimmen kann. Der DLEQ liefert dem Nutzer hier die Sicherheit, dass der diskrete Logarithmus des zum signieren verwendeten private Keys der gleiche ist, wie ein von CDN öffentlich bekannt gegebener diskrete Logarithmus. Davidson et al. beschreibt zudem einen Weg den DLEQ in einer Sammelform zu formulieren, sodass ein Beweis für eine Liste an Token gilt \cite{pp-davidson2018privacy}, was Rechenaufwand spart.\\\\
+
 Im Grund lässt Privacy Pass gut auf die Verwendung im Datentreuhändermodell anwenden. Unter den Annahmen, dass ein Datennutzender hier ein Nutzer ist, kann er Token bei dem Datentreuhänder erwerben, speichern und zu einem späteren Zeitpunkt wieder ausgeben. Da die Token blind signiert werden wird vermieden, dass der Datentreuhänder, die in den unterschiedlichen Phasen verwendeten Token zueinander verlinken kann und Zusammenhänge zwischen Einlösen und Ausgeben ziehen kann. Der Datentreuhänder kann eine weitere überprüfende Instanz verwenden wie in \cite{pp-davidson2018privacy} beschrieben wird, um den Aufwand der Überprüfung auszulagern. \\
 Einige Punkte sprechen jedoch gegen die direkte Verwendung von Privacy Pass. 
 \begin{enumerate}
@@ -405,6 +408,7 @@ Aufgrund dessen, dass keines der zuvor genannten Bezahlsysteme sämtliche Anford
 
 
 \chapter{Entwurf der Systeme}
+\label{chap:systems}
 %ziel, welche betrugserkennung, geld als Anreiz, soll hauptsächlich verkäufer schützen, eigene coins, exchange als neuer akteur, ecc
 
 
@@ -434,6 +438,17 @@ Da im Datentreuhandmodell ein Datennutzender meist durch ein Unternehmen oder ei
 \end{enumerate}
 Durch eine die Verwendung von Geld als Anreiz werden diese Punkte umgangen. Das Interesse der Datengebenden ist nun ausschließlich abhängig von dem Ruf und dem persönlichen Interesse an einem Datengebenden und nicht von dessen Anreizangebot. Der Anspruch auf den versprochenen Anreizes ist für jeden Datennutzenden gleich implementiert und hängt maximal von der Wahl anderer Parameter ab. Es kann davon ausgegangen werden, dass alle Datennutzenden über Geld verfügen und dieses als Kompensation verwenden können. Aufgrund des Stellenwertes von Geld in unserer Gesellschaft, sind bereits viele Wegen entwickelt wurden, wie dessen Wert anonym oder pseudonym an andere überträgt. Der Datentreuhänder hat die volle Kontrolle, dass ein zu zahlender Geldbetrag vom Datennutzenden abgegeben wird und auch bei Datengebenden ankommt.
 
+\section{Annahmen über das Datentreuhändermodell}
+Datentreuhänder können in verschiedenen Variation eingesetzt werden. Abschnitt \ref{sec:dt} gibt darüber bereits einen Überblick. Hier werden im Annahmen getroffen, die das Datentreuhändmodell betrefen, für welches das Anreizsystem entworden wird. Dadurch soll verdeutlicht werden, in was für einem Datentreuhändermodell das System am besten eingesetzt werden kann.
+
+Zuerst sei anzunehmen, dass es sich bei dem Datentreuhänder um einen freiwilligen Customer to Business Treuhänder handelt. Dies ist dadurch begründet, dass bei verpflichtenden Datentreuhändern die Benutzung vorgeschrieben ist und ein Anreiz zur Benutzung für solche ein System die Nutzerzahlen nicht beeinflusst. Weiter haben bei Business to Business Treuhändern beide Parteien einen Profit aus dem Tausch der Daten. Beide sind gleichzeitig am Daten empfangen und am Daten versenden. Hier fällt daher eine deutliche Einteilung in Datengebenden, die Anreize erhalten und Datennutzende die Anreize bieten schwer. Zusätzlich ist die Aussicht auf Datengewinn durch einen Tausch, häufig Anreiz genug um ein Unternehmen zur Verwendung eines B2B Datentreuhänders zu bewegen. \todo{proof}
+
+Die beim Datentreuhänder abgelegten Daten sind verschlüsselt. Der Datentreuhänder speichert lediglich eine lange Liste an Bytes, aber kann anhand der verschlüsselten Bytes nicht feststellen, was die Daten beinhalten, welche Daten von welchem Datengebenden stammen oder wo ein Datensatz aufhört und der nächste beginnt. Er weiß also nichts über die bei ihm abgelegten Daten. Damit ein Datengebender trotzdem dem Zugang zu seinen Daten behält, wird ihm beim hochladen seiner Daten Werte für den kontreten Ablageort seiner Daten, sowie einen passenden Schlüssel zur Entschlüsselung mitgeteilt. Wenn er seine abgelegten Daten nun einsehen möchte, so kann er den Satz an Bytes von dem Speicherort anfragen und den erhaltenen Geheimtext mit Hilfe des Schlüssels entschlüsseln, was seine ursprünglich hochgeladenen Daten zum Vorschein bringt.
+
+Es gibt 2 Paradigmen bezüglich der Auswahl von Datengebenden. Das erste davon umfasst, dass ein Datengebender dem Datentreuhänder erklärt, dass er seine Daten zum Verkauf anbieten möchte. Der Datentreuhänder bewirbt darauf die Daten des Datengebenden auf einer zu einem Marktplatz vergleichbaren Plattform und Datennutzende wählen sich die Datengebende ihre Wahl aus und beziehen von ihnen die angeboten Daten. Das zweite Paradigma dreht die Zuständigkeit um. Hier kann ein Datennutzender einen Aufruf starten, der Datengebende dazu aufruft, Daten eines bestimmen Typen zu verkaufen. Jetzt können sich Datengebende durch eine Liste an Aufrufen durcharbeiten und den richtig für sich heraussuchen. Sobald ein passender Aufruf entdeckt wurde, kann ein Datensatz des vom Datennutzende angefragen Datentyps vorgelegt werden. 
+Im Folgenden wird vom zweiten Paradigma ausgegangen, da es sowohl Rechenaufwand- als auch Privatsphärenvorteile liefert. Das Erstellen eines Aufrufs, sowie Weiterleiten zum Datentreuhänder, sollte beides in $O(1)$ geschehen. Natürlich hängt die Laufzeit von der konkreten implementierung ab, allerdings beinhaltet das Erstellen eines Aufrufs nur die Zusammensammlung von Informationen wie Datentypen, Namen oder Beschreibung. Es sind in meisten Fällen keine iterativen Vorgänge aktiv, die die Laufzeit in $O(n)$ bringen könnte. Im Anschluss sind keine weiteren Berechnungen von Nöten um Daten zu empfangen. Bei der individuellen Auswahl von Datengebenden und der Nachfrage nach deren Daten entsteht hingegen ein Zusammenhang zwischen der Anzahl an Datensätzen und des Rechenaufwands des Datennutzenden. Da der Datennutzende für jeden Datengebenden eine Bewertung erzeugen muss, die entscheidet ob die Daten erworben werden oder nicht, ergibt sich für den Erhalt von $n$ Datensätzen ein Rechenaufwand von $O(n)$. Die Minimierung des Rechenaufwands für den Datennutzende ist vor allem interessant, da Datennutzende durch Unternehmen repräsentiert werden, welche in Extremfällen mehrere tausend Anfragen pro Sekunden bearbeiten müssen, während Datengebende an ihren Endgerät einen deutlich überschaubareren Rechenaufwand leisten müssen.
+Privatsphärenvorteile werden durch das zweite Paradigma ebenfalls erbracht, da die Einreichung von Daten so vollständig Anonym ablaufen kann. Solange durch die Kommunikation zur Mitteilung des Speicherorts und Datenschlüssels keine Informationen preisgegeben werden, kann der Datennutzende den Datengebenden unmöglich deanonymisieren. Die von ihm erhaltenen Datenparameter können dazu benutzt werden Daten beim Datentreuhänder zuerfragen. Dieser weiß genauso wenig wessen Daten angefragt wurden. Im ersten Paradigma hingegen müssen mindestens die Informationen die ein Datennutzender braucht, um eine aussagekräftige Einschätzung über die Daten trefen zu können bereitgestellt werden. Je nach dem welche Informationen davon betroffen sind besteht eine Möglichkeit die Angebote eines Datengebenden miteinander zu verlinken und so Informationen über ihn zu gewinnen.
+
  
 
 \section{Generelles}
@@ -457,6 +472,7 @@ AES hingegen verwendet nur einen Schlüssel, der gleichzeitig zum Verschlüsseln
 Es sei angemerkt, dass von hieran folgend jede Nachrichtenübertragung zwischen 2 Akteuren, dies mögen bspw. Datentreuhänder und Datengebender sein, immer via ECC verschlüsselt und signiert ist, es sei denn es wird für den Kommunikationsschritt anders definiert.
 
 \section{Coin Generierungsphase}
+\label{system:coingeneration}
 Hier werden die Coins die im späteren Verlauf beider Systeme verwendet werden vom Datennutzenden erstellt und vom Datentreuhänder signiert. Die einzelnen Schritte sind in Abbildung \ref{fig:coin-generationphase} verdeutlich und werden im Folgenden beschrieben.
 \subsection{Ablauf}
 \begin{figure}[H]
@@ -475,21 +491,22 @@ Da der Exchange nur den $apk$ erhält, hat er keine Möglichkeit den $CoinGenera
 \paragraph{3. CoinGenerationToken übertragen} $([\{(nonce, apk, ES)\}_{apk}])$\\
 Auf eine $CoinGenerationToken$ Anfrage des Datennutzenden antwortet der Exchange mit allen noch nicht eingelösten Token für den $apk$. Nachdem der Datennutzende die Token erhalten hat, kann er diesen zuerst mit dem passenden secret Key entschlüsseln. Im Anschluss kann er selbst Coins erstellen. Ein Coin besteht aus $(nonce, value)$. Bei der Erstellung sind 2 Sachen zu beachten. Zuerst muss der summierte Wert aller erstellten Coins gleichgroß sein wie die $ES$ des Tokens. Des Weiteren gibt es eine Menge an möglichen Werten $PV$, sodass $\forall value\in  PV$ gilt. Dies ist vor allem wichtig, da $value$ beim Signieren und Einlösen des Coins für den Exchange sichtbar ist und dieser bei einer Wahl eines selten vorkommenden $value$ eine Verbindung zwischen den Phasen herstellen kann.
 
-\paragraph{4. Signierung Anfragen} $(nonce, apk, ES), [(value)]$
+\paragraph{4. Signierung Anfragen} $((nonce, apk, ES), [value])$
 
 Eine Signieranfrage ist der Start eines Durchlaufs von partiell blinden Signaturen, bestehend aus einem $CoinGenerationToken$ und einer Menge an $values$. Zuerst kann der Exchange prüfen, ob der gesendete Token noch nicht eingelöst wurde. Anschließend summiert er alle $value$ auf und prüft, ob die Summe gleich dem $ES$ des Tokens ist. Wenn beide Überprüfungen akzeptieren, kann der Exchange mit dem partiell blind signieren anfangen und bei seinem gespeichert Token $spent \leftarrow true$ setzen, um eine doppelte Einlösung zu verhindern.
 
-\paragraph*{Gestrichelte Pfeile} $[(a,b)], [(e)]$\\
+\paragraph*{Gestrichelte Pfeile} $([a,b]), ([e])$\\
 Die Pfeile zwischen 4. und 5. sind hier gestrichelt eingetragen, da sie notwendige Kommunikationsschritte von partiell blinden Signaturen abbilden. Sie sind essenziell für die Funktionsweise und wurden bereits in \ref{sec:partBlindSig} erklärt, weshalb sie hier nur zur Vollständigkeit aufgelistet werden.
 
-\paragraph{5. Signieranfrage Antwort} $[(r,c,s,d)]$ \\
-Vorausgesetzt alle Überprüfungen aus Schritt 4 akzeptieren, so erhält der Datennutzende nun eine Menge an partiell blinden signierten Coins und kann diese für spätere Verwendung lokal speichern. Sollten die Überprüfungen nicht akzeptieren, so kann der Datennutzende entweder bei Schritt 4 mit anderen Coins oder bei Schritt 2 wieder ansetzen.\\
+\paragraph{5. Signieranfrage Antwort} $([r,c,s,d], \pi_{sk})$ \\
+Vorausgesetzt alle Überprüfungen aus Schritt 4 akzeptieren, so erhält der Datennutzende nun eine Menge an partiell blinden signierten Coins und kann diese für spätere Verwendung lokal speichern. Zusätzlich berechnet der Exchange einen BDLEQ auf dem gleichen Weg, wie er in \ref{sec:privacy-pass} beschrieben ist. Nachdem der  Datennutzenden diesen verfiziert hat, kann er sicher sein, dass der Exchange zum signieren seiner Coins den selben private Key verwendet hat wie für die Signatur aller Coin Generierungsphasen. Sollten die Überprüfungen nicht akzeptieren, so kann der Datennutzende entweder bei Schritt 4 mit anderen Coins oder bei Schritt 2 wieder ansetzen.\\
 
 Auf diese Weise kann ein Datennutzender Geld bei einem Exchange einzahlen und eine dem Geldbetrag entsprechende Menge an Coins erhalten, ohne dass der Exchange die von ihm ausgehändigten Coins nachverfolgen kann. Gleichzeitig ist es für einen Datennutzende nicht möglich Coins zu erhalten für die er keinen monetären Gegenwert bereitgestellt hat.
-\subsection{Weitere Details}
-Zusätzlich ist zu erwähnen, dass Exchanges finanziell motiviert sein können oder eine Gebühr verlangen möchten, um bspw. laufende Serverkosten zu decken. Sollte dies der Fall sein, kann vor dem Beginn der Coin Generationphase vom dem Exchange eine feste Gebühr vorgeschrieben werden. Wenn sich ein Datennutzender trotz der Gebühr dazu entscheidet diesen Exchange zu verwenden, so kann der Exchange nach dem Eingang einer Zahlung in Schritt 1, einen $CoinGenerationToken$ erstellen, welcher die Gebühr bereits abzieht. Wenn also ein Datennutzender eine Transaktion von $100$\texteuro  bei Exchange mit $10\%$ Gebühr tätigt, so erstellt der Exchange einen $CoinGenerationToken$ für den angegebenen $apk$ mit $ES \leftarrow 90$\texteuro. Auf diese Weise kann eine Exchange seine finanziellen Interessen geltend machen. Auch wenn es nicht das Ziel eines Exchanges sein sollte wirtschaftlich zu handeln, lässt so immerhin verhindern, dass ein Exchange mit den Betriebskosten Minus macht.
+\subsection{Finanzierung des Exchange}
+Zusätzlich ist zu erwähnen, dass Exchanges finanziell motiviert sein können oder eine Gebühr verlangen möchten, um bspw. laufende Serverkosten zu decken. Sollte dies der Fall sein, kann vor dem Beginn der Coin Generationphase vom dem Exchange eine feste Gebühr ausgerufen werden. Wenn sich ein Datennutzender trotz der Gebühr dazu entscheidet diesen Exchange zu verwenden, so kann der Exchange nach dem Eingang einer Zahlung in Schritt 1, einen $CoinGenerationToken$ erstellen, welcher die Gebühr bereits abzieht. Wenn also ein Datennutzender eine Transaktion von $100$\texteuro  bei Exchange mit $10\%$ Gebühr tätigt, so erstellt der Exchange einen $CoinGenerationToken$ für den angegebenen $apk$ mit $ES \leftarrow 90$\texteuro. Auf diese Weise kann eine Exchange seine finanziellen Interessen geltend machen. Auch wenn es nicht das Ziel eines Exchanges sein sollte wirtschaftlich zu handeln, lässt so immerhin verhindern, dass ein Exchange mit den Betriebskosten Minus macht.
 
 \section{Bezahlvorgang}
+\label{system:payment}
 Nun wo die Coins erstellt und signiert sind, kann damit angefangen werden sich mit dem Ausgeben dieser Coins zu beschäftigen. Dafür gibt es das Bezahlsystem welches es Datennutzenden erlaubt die Daten von Datengebenden anzufragen. Diese können der Anfrage nachkommen, wofür sie der Datennutzende im Gegenzug mit den Coins entlohnt. Damit bei dem Vorgang die Privatsphäre des Datengebende so gut wie möglich geschützt wird, findet der Austausch der Daten und Coins über Postfächer beim Datentreuhänder statt. Dadurch entsteht keine direkte Kommunikation zwischen Datengebenden und Datennutzenden welche potenziell schützenswerte Informationen wie IP oder dergleichen preisgibt. Wie der Ablauf genau funktioniert wird im Folgenden erklärt.
 
 \subsection{Ablauf}
@@ -503,7 +520,6 @@ Nun wo die Coins erstellt und signiert sind, kann damit angefangen werden sich m
 \paragraph{1. Aufruf starten} $(datatype, reputationThreshold, price)$\\
 Der Datennutzende erstellt beim Datentreuhänder einen Aufruf zur Datenteilung. Damit verkündet er an alle Datengebenden, dass er Daten von einem bestimmten Typ sucht und nennt direkt wieviel er für diese Daten bereits ist zu bezahlen. Da der Datennutzende nach Anlegung des Aufrufs direkt Daten erhalten kann, für die er Zahlen muss, braucht es eine Möglichkeit ein gewisses Vertrauensminimum festzulegen. Der $reputationThreshold$ gibt dabei einen Schwellwert an, so dass der Aufruf nur für Datengebende mit einer Reputation über diesem Schwellwert sichtbar ist.
 
-Im Datentreuhändermodell ist noch ein weiterer Kommunikationsstart denkbar. Es besteht die Option, dass ein Datengebender seine Daten beim Datentreuhänder anbietet und sich Datennutzende aus einer bereits bestehenden Auswahl von Angeboten passende aussuchen. Jedoch skaliert dieser Ansatz schlechter da der Datennutzende in der Regel an großen Mengen von Daten interessiert sind, was zu mehr Rechenaufwand auf Seiten des Datennutzenden führt. Deswegen wird von dem beschrieben Aufrufansatz ausgegangen.
 
 \paragraph{2. Aufrufliste anfragen} $(DG$-$ID)$
 \todo{Erst nach reputationssytem }
@@ -597,7 +613,14 @@ Wie schon bei \ref{sec:mainPart_ziel} erwähnt wurde, soll im Streitfall die Kom
 
 
 \section{Reputationsvergabe}
-
+\label{system:reputation}
+\subsection{Ablauf}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{ReputationDiagramm.pdf}
+    \caption{Reputationssystem Ablauf}
+    \label{fig:reputation}
+\end{figure} 
 
 %==================================================================================================
 
@@ -606,18 +629,109 @@ Wie schon bei \ref{sec:mainPart_ziel} erwähnt wurde, soll im Streitfall die Kom
 %schritt 4 braucht auch pk des dg -> für jeden neues keypair erstellen
 %schritt 5 hinzufügen von index für benutzbarkeit
 
+%Parameter wahl für alle krypographie wert (schlüssellänge, tokennonce länge, etc)
+
 \section{TRESOR Projekt}
 
 %==================================================================================================
 
 \chapter{Auswertung}
+Nun da die Formalisierung des Konzepts abgeschlossen ist, kann mit der Auswertung von diesem begonnen werden. Dafür wird das Konzept hauptsächlich bezüglich der Sicheheit und des Rechenaufwands analysiert. Für die Analyse der Sicherheit werden eine Reihe von Angreifermodellen definiert und anhand deren gezeigt, welche Schwachstellen das Konzept gegen verschieden Angreifer aufweist. Zur Analyse des Rechenaufwands werden gemessene Laufzeiten der Implementation begründet und miteinander verglichen. Später werden diese Laufzeiten mit anderen Bezahlsystemen verglichen, um eine Einschätzung über die Effizienz verglichen mit heutigen Stardants zu liefern.
 \section{Bewertung der Sicherheit}
+Die Sicherheit eines Systems in Bezug auf verschiedene Angriffe ist ein essenzieller Faktor für den Erfolg dieses Systems. Insbesondere bei kryptographischen Protokollen wie Keyexchange Protokollen oder dem in \ref{chap:systems} präsentierten Bezahlsystem ist die Sicherheit einer der entscheidenen Punkte die den Erfolg bestimmen können. Um einen Standard für solch eine Bewertung der Sicherheit einzuführen, definierten D. Dolev und A. Yao im Jahr 1983 das erste Angreifermodell \cite{am-dolev1983security}. Ein Angreifermodell beschreibt einen theoretischen Angreifer der probiert dem zu untersuchenden System Schaden zu zufügen oder Informationenen zu extrahieren. Dafür müssen die Rahmenbedingungen des Angreifermodells genau bestimmt werden. Es umfasst in der Regel Angreiferziele, Angreiferannahmen und Angreiferfähigkeiten \cite{am-do2019role}. 
+\begin{itemize}
+    \item \textbf{Angreiferziele} Für einen Angreifer gibt es mehrere Ziele die er mit seinem Angriffen erreichen können möchte. Er kann bspw. interesse daran haben, die übertragenen Informationen mitzuscheiden, Geheimnisse wie private oder Sitzungsschlüssel herauszufinden oder die Kommunikation vollständig zu verhindern. 
+    \item \textbf{Angreiferannahmen} Sie beschreiben das Umfeld und die Ressourcen des Angreifers. Häufig auftretende Annahmen sind die Unterscheidung zwischen externem oder internem Zugriff auf ein Netzwerk, die Beschränkung auf einen polynomial probabilistischen Angreifer, was beschreibt dass der Angreifer nur $O(n^k)$ Rechenaufwand bei einem Konstanten $k$ und Eingabelänge $n$ hat und bei der Berechnung zufällige Werte raten darf.
+    \item \textbf{Angreiferfähigkeiten} Die Fähigkeiten eines Angreifers sind durch seine Handlungsmöglichkeiten definiert. So kann ein aktiver Angreifer die Fähigkeiten besitzen, Botnetzwerke zu verwenden um DDoS Attacken zu starten, per Brute Force probieren ein Passwort zu knacken oder Analysen des Geheimtexts durchführen, die Schlüsse auf die übertragenen Nachricht zulassen. Passive Angreifer hingegen haben meist nur die Möglichkeit die Kommunikation zu beobachten und Schlüsse aus dem Netzwerkverkehr anzuleiten.
+\end{itemize} 
+Zusammen ergibt die Definition des Angreifermodell eine maximale Stärke die ein Angreifer besitzen kann und trotzdessen das System nicht brechen kann. Sollte er in nur wenigen Punkten mehr Macht besitzen als das Angreifermodell vorgibt, so ist die Sicherheit des Systems nicht mehr gewährleistet und der Angreifer kann sein definiertes Ziel erreichen. Daher spricht die Aufstellung eines starken Angreifermodells und die Verteidigung gegen dieses für die Robustheit des Systems. Eine genaue Definition des Angreifermodells ist wichtig, da unpräzise Formulierung ein mehrdeutiges Angreifermodell liefern, dass nicht genau bestimmen kann wogegen das System geschützt ist.
+
+\subsection{Angreifermodelle der Coin Generierungsphase}
+Bei einer Durchführung des Coin Generierungsprotokolls, treten Exchange und Datennutzender als Akteure auf. Für jeden von ihnen muss ein Angreifermodell definiert werden, um die Sicherheit bei korrumpierten Kommunikationteilnehmern zu zeigen. Zusätzlich soll die Sicheheit gegen einen außenstehenden Angreifer gezeigt werden.
+
+\paragraph{Bösartiger Datennutzender}
+Ein bösartiges Verhalten eines Datennutzenden kann durch eine Übernahme eines Datennutzenden durch einen externen Angreifer oder durch bösartige Interessen des Datennutzenden selbst entstehen. In beiden Fällen ist das Ziel des Angreifenden entweder Coins mit größerem monetären Wert zu erhalten als der ursprüngliche Zahlungseingang beim Exchange zulässt oder eine Möglichkeit zu erhalten selbst Coins zu signieren. Die dafür zu treffenden Annahmen sind, dass es sich um einen aktiven Angreifer handelt. Er verfügt über unbegrentzten Speicher und kann Algorithmen mit polynomieller probabilistischer Rechenzeit ausführen. Zusätzlich kennt er den public Key des Exchanges und den für den Zahlungseingang verwendeten $apk$. Mögliche Angriffe die er starten kann sind Replay-Attacken, welche eine zuvor gesendete Nachricht wiederholen, sowie Chosen-Plaintext-Attack, bei denen der Angreifer den Nachrichteninhalt bestimmt und observieren kann wie sich der Geheimtext verhält ,Brute-Force-Attacken zum erraten des privaten Schlüssels und Geheimtextanalysen zur herausarbeitung des privaten Schlüssels.\\
+
+Da der Ablauf der Zahlungseingang in Schritt 1 hauptsächlich von den konkret verwendeten Methode abhängt, kann hier davon ausgegangen werden, dass der Angreifer eine reguläre Transaktion leistet, da er ohne den damit entstehenden $CoinGenerationToken$ das Protokoll nicht vorführen kann. 
+Anschließend erfragt er beim Exchange alle Token mit dem verwendeten $apk$. Nach Erhalt des soeben erstellten Token, kann er probieren Coins zu generieren, die den $ES$ Wert des Token übersteigen und den $value$ dieser zusammen mit dem Token zu Exchange zu senden. Da der Exchange zuerst den summierten $value$ Betrag aller Coins mit dem $ES$ des Tokens vergleicht, wird der Exchange bereits hier feststellen, dass ein Angreifer probiert mehr Geld zu erhalten als er bezahlt hat. Der Versuch schlägt hier fehl.\\
+
+Der Angreifer ist daher gezwungen, eine zum $ES$ passende Menge an $values$ zu generieren und zu übertragen. Der Exchange antwortet mit einer Liste von $a,b$ für jeden $value$. Nun kann der Angreifer sich entscheiden, das Protokoll für partiell Blinde Signaturen (\ref{sec:partBlindSig}) zu verlassen und anstatt die vorgesehen Berechnung für $e$ auszuführen, $e$ als Variable für den Chose-Plaintext-Angriff zu verwenden. Er schreibt jedem $e$ einen leicht veränderten Wert zu, sendet diesen an den Exchange, erhält für jedes $e$ ein Tupel aus $(r,c,s,d)$ und kann probieren die unterschiede zwischen den verschiedenen $r$ mit Hilfe von Geheimtextanalyse herauszuarbeiten. Da der Exchange zur Berechnung von $r$ zwei dem Angreifer unbekannte Variablen benutzt ($u,x$) und auf das Ergebnis $mod$ $q$ anwendet, ist bei einer ausreichend großen Wahl von $u,x,q$ anzunehmen, dass der Ergebnis pseudozufällig erscheint und keine Hinweise auf $x$ liefert. Dabei verliert der Angreifer zusätzlich bei jedem Versuch den Wert des Coins, da die entstehende Signatur nicht gültig ist.\\
+
+Sollte der Angreifer $e$ wie vom Protokoll vorgesehen berechnen und nach Erhalt von $(r,c,s,d)$ probieren $u,X$ zu erraten, sodass die Ergebnisse seiner Berechnung mit $(r,c,s,d)$ übereinstimmen, so kann er diesen Brute-Force-Angriff ohne Kosten (abgesehen von Rechenaufwand) starten. Solange $q$ groß genug gewählt (in der Implementierung 128bits) mit $u{\in}_{R} {\mathbb{Z}}_{q}$ ist die Change allein $u$ korrekt zu bestimmen bereits $\frac{1}{2^{128}} \approx \frac{1}{3,4\cdot10^{38}}$ ausreichend gering, um das Gelingen des Erratens von $u$ und $x$ als vernachlässigbar anzunehmen.
+
+Der Angreifer kann auch probieren anhand des public Keys des Exchange einen Faktorisierungsalgorithmus laufen zu lassen, um den private Key zu bestimmen. Noch sind aber keine Algorithmen bekannt, die das Faktorisierungsproblem in aufbringbarer Zeit effizient lösen können, weshalb der Angreifer auch mit diesem Vorgehen nicht an den private Key kommt.\todo{proof}\\
+
+Nach Ausstellung der Signatur ist der Wert jedes Coins fest zugeteilt. Wenn ein Angreifer versucht den $value$ des signierten Coins zu ändern, werden damit die Grundlagen zum Überprüfen der Signatur umdefiniert, was dazu führt, dass jede Validierung fehlschlägt. Somit verliert der Coin schlagartig seinen Wert, sobald der Angreifer den $value$ verändert.\\
+
+Letztlich kann der Angreifer probieren einen Replay-Angriff zu starten und einen bereits einmal eingesetzten $CoinGenerationToken$ erneut mit einer Reihen an $values$ zum Exchange zu senden. Jedoch ist in \ref{system:coingeneration} definiert, dass der Exchange jeden erhaltenen $CoinGenerationToken$ auf eine doppelte Einlösung überprüft. Daher wird der Exchange die Annahme des Tokens verweigern und der Angreifer schafft es auch hier nicht, mehr Coins zu erhalten als ihm zustehen.\\
+
+\paragraph{Neugieriger Exchange}
+Der Exchange stellt in der Coin Generierungsphase ein Rolle mit großer Verantwortung da. Er hat die Aufgabe Geldsummen sicher zu verwalten und trotz der Anonymität des Konzeptes genau die passenden Mengen ein- und auszuzahlen. Trotzdem wird das Angreifermodell für den Exchange hier nur schwach definiert. Dies hat vor allem den Hintergrund, dass das Konzept eines Exchanges zum Tausch von Geld in die jeweilige Kryptowährung bereits etabliert ist und viele Sicherheitsmaßnahmen bestehen, die den Exchange zu einem gutmütigen Verhalten zwingen \cite{gnu-burdges2016enabling}\cite{kim2018risk}\cite{baum2021p2dex}. Deswegen wird im Folgenden nur die Sicherheit des Protokoll erwiesen aber nicht die Sicherheit des Exchanges.
+Angenommen der Exchange kann nicht durch unbefugte übernommen werden, so sind seine Angreiferziele, in Erfahrung zu bringen, welcher Datennutzende wie viele Coins besitzt und wie viel diese wert sind.  Zusätzlich ist er daran interessiert herauszufinden, mit wem der Datennutzende der sich die Coins signieren lässt, handelt. Dafür möchte er sowohl die Identität des Datennutzende als auch des Coins wiedererkennen können und verschiedene signiervorgänge untereinander verlinken können. Die Angreiferannahmen beschränken sich zum größten Teil auf passives Verhalten. Er hält sich überwiegend an das Protokoll und beobachtet die Kommunikation mit dem Datennutzende, um daraus Informationen zu sammeln. Seine Rechenleistung ist polynomial probabilistisch und er kennt sämtliche Informationen die im ersten Schritt angegeben werden. Die Angreiferfähigkeiten sind ebenso eingeschränkt. In den meisten Fällen antwortet er auf Anfragen des Datennutzende wie das Protokoll vorgibt. Nur die Wahl der Berechnungswerte für die partiell blinden Signatur kann er variieren.\\
+
+Wie definiert, hält sich der Exchange zunächst an das Protokoll. Er erstellt beim Eintrefen einer Zahlung einen $CoinGenerationToken$ mit dem $ES$ und $apk$ gleich den Werten der Zahlung und legt diesen mit dem $apk$ verschlüsselt in seinem Speicher ab. Da der $apk$ ein regulärer public Key ist, kann der Exchange keine fundierten Kenntnissen aus einem $apk$ ziehen. Erst sobald der selbe $apk$ für eine spätere Zahlung erneut angegeben wird, kann davon ausgegangen werden, dass der Zahlungseingang von der gleichen Person stammt. Wenn ein Datennutzender aber für jedes Zahlung einen neuen $apk$ generiert, kann der Exchange zwei verschiede Zahlung nicht zu der gleichen Person zurückführen.
+
+Auf Anfrage gibt er den $CoinGenerationToken$ heraus. Bei dem berechnen der partiell blinden Signatur ist der einzige Wert, für den eine Abweichung von Protokoll sinnvoll sein kann, der private Schlüssel. Die Werte $u,s,d,z,c,r$ sind bei jedem signierten Coin unterschiedlich. Diese gleich zu behalten würde ab dem zweiten Coin dem Datennutzenden auffallen. Der private Schlüssel hingegen ist dem Datennutzenden nicht bekannt und die Auswirkung beim auswechseln des privaten Schlüssel sind nicht feststellbar. Daher kann der Exchange probieren, für jeden signierten Coin einen eigenen privaten Schlüssel zu verwenden. Dadurch kann er beim späteren Erhalt von Coins im Bezahlsystem durch den Datengebenden nachvollziehen, aus welcher Signieranfrage der Coin stammt und kann so die Beziehung zwischen dem Datennutzenden und Datengebenden vermuten. An dieser Stelle greift jedoch der $BDLEQ$, welcher in \ref{sec:privacy-pass} erklärt wurde und verhindert, dass der Exchange ungehindert den Schlüssel austauschen kann. Bei einem Versuch den Schlüssel zu ersetzen, zeigt der $BDLEQ$, dass der verwendete Schlüssel nicht mehr mit dem beworbenen übereinstimmt. Somit ist der Exchange gezwungen den gleiche privaten Schlüssel einzusetzen, was ihm die potenzielle Wiedererkennung im späteren Verlauf verhindert.\\
+
+
+
+
+Angreiferziele:
+    - will wissen welcher DN wie viele coins hat und die viel geld
+    - will verschiedene signiervorgänge verlinken können
+Angreiferannahmen:
+    - passive beobachtend
+    - poly rechenaufwand
+    - kennt werte des coingentoken
+    - hält sich ans protokoll außer immer gleichen sk
+Angreiferfähigkeiten:
+    -
+
+erhält zahlung -> stellt token aus (apk kann selbst bei gleichen DN jedes mal anders sein) -> kein Informationsgewinn aus apk
+antwortet mit token -> erhält values -> benutzt für jede anfrage unterschiedliches keypair -> bdleq stimmt nicht mehr -> DN beschwert sich und meldet exchange -> wird gebannt
+muss also gleich schlüssel benutzen -> kennt nur value aber nicht nonce -> wenn token eingelost wird ist nonce unbekannt und value stammt aus kleiner menge an werten -> also auch viel zu häufig vorkommend um schlüsse zu ziehen
+Kann die Identität auf keiner weise nachverfolgen
+
+\textbf{Außenstehender}
+%-> Kommunikation über Internet daher trotzdem unterscheidung zwischen außer und innentäter nicht nötig
+Angreiferziele:
+    - will selbst coins erhalten
+    - will DN vom erhalten seiner coins abhalten
+Angreiferannahmen:
+    - kennt DN-ID des DN
+    - kenn den apk und kann jeden apk zu dn-id matchen
+    - unbegrentz speichplatz und polynialzeit Rechenleistung
+    - ist aktiv
+Angreiferfähigkeiten:
+    - chosen-plaintext
+    - brute force
+    - cryptoanalysis
+
+Kann bei schritt 2 sich als dn ausgeben und nach token für apk fragen.
+Erhält verschlüsselten token -> polynomialzeit reicht nicht, cryptoanalysis liefert keine herausstechenden ergebnisse
+kann probieren token zu erraten -> $100.000 * 2^256$ -> $1/1,15*10^82 $-> vernachlässigbar
+kann nichts weiter tuhen da partblindsig über gleiche tcp sein muss und token zum start nötig ist
+wiederholtes ausprobieren von token kann maximal dos verursachen
+
+
+\subsection{Angreifermodelle der Bezahlphase}
+Für die Definition der Angreifermodelle wird zunächst angenommen, dass jeder Akteur der an dem System beteiligt ist, mehr oder weniger aktiv an der Ausnutzung möglicher Schwachstellen interessiert ist. Somit ergeben sich für die 4 verschiedenen Akteure 4 Angreifermodelle mit unterschiedlichen Eigenschaften.
+\begin{itemize}
+    \item \textbf{Bösartige Datennutzende}
+    %define adversary goals, assumptions, capablities
+    \item \textbf{Bösartige Datengebende}
+    \item \textbf{Ehrlich aber neugieriger Datentreuhänder}
+    \item \textbf{Ehrlich aber neugieriger Exchange}
+\end{itemize}
 %Sicherheit gegen Angreifer Modelle:
 %    - honest but curios DT
 %    - honest but curios Exchange
 %    - bösartige DN
 %    - bösartige DG
-\subsection{Definition der Angreifermodelle}
+
+
+\section{Setup / Implementation}
+%Kein transmission delay da nur localhost
 
 \section{Analyse des Rechenaufwands}
 \subsection{Metrics}
@@ -629,8 +743,6 @@ Wie schon bei \ref{sec:mainPart_ziel} erwähnt wurde, soll im Streitfall die Kom
 %Erwarteter Aufwand schätzen
 %Mit erhaltenen Zahlen vergleichen
 
-\section{Setup / Implementation}
-%Kein transmission delay da nur localhost
 
 
 %==================================================================================================
